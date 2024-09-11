@@ -18,7 +18,6 @@ RUN apt install -y meshlab
 RUN cd /root ; mkdir libIGEVStereo
 RUN cd /root/libIGEVStereo
 WORKDIR /root/libIGEVStereo
-COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
 RUN mkdir /root/libIGEVStereo/libigev_stereo/
 COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
 RUN python3 -m pip install gdown

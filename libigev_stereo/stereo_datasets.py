@@ -10,8 +10,8 @@ import random
 from glob import glob
 import os.path as osp
 
-from libigev_stereo.utils import frame_utils
-from libigev_stereo.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
+from igev_stereo.utils import frame_utils
+from igev_stereo.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 
 
 class StereoDataset(data.Dataset):

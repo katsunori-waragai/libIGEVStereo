@@ -1,5 +1,4 @@
 import sys
-sys.path.append('../libigev_stereo/')
 
 import argparse
 import glob
@@ -7,13 +6,11 @@ import numpy as np
 import torch
 from tqdm import tqdm
 from pathlib import Path
-from igev_stereo import IGEVStereo
-from utils.utils import InputPadder
+from libigev_stereo import IGEVStereo
+from libigev_stereo.utils import InputPadder
 from PIL import Image
-from matplotlib import pyplot as plt
 import os
 import skimage.io
-import cv2
 
 
 DEVICE = 'cuda'

@@ -1,5 +1,4 @@
 import sys
-sys.path.append('core')
 DEVICE = 'cuda'
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
@@ -10,8 +9,6 @@ import torch
 from tqdm import tqdm
 from pathlib import Path
 
-import libigev_stereo
-libigev_stereo.igev_stereo.IGEVStereo
 from libigev_stereo.igev_stereo import IGEVStereo
 from libigev_stereo.utils import InputPadder
 from PIL import Image
