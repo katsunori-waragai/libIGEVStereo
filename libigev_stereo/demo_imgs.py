@@ -11,13 +11,13 @@ from tqdm import tqdm
 from pathlib import Path
 
 import libigev_stereo
-libigev_stereo.core.igev_stereo.IGEVStereo
-from libigev_stereo.core.igev_stereo import IGEVStereo
-from libigev_stereo.core.utils.utils import InputPadder
+libigev_stereo.igev_stereo.IGEVStereo
+from libigev_stereo.igev_stereo import IGEVStereo
+from libigev_stereo.utils import InputPadder
 from PIL import Image
 from matplotlib import pyplot as plt
 import os
-import cv2
+
 
 def load_image(imfile):
     img = np.array(Image.open(imfile)).astype(np.uint8)
