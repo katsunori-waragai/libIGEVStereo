@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from libIGEVStereo.libIGEVStereo.core.submodule import *
+from libigev_stereo.libIGEVStereo.core.submodule import *
 import timm
 
 

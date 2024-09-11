@@ -10,10 +10,10 @@ import torch
 from tqdm import tqdm
 from pathlib import Path
 
-import libIGEVStereo
-libIGEVStereo.libIGEVStereo.core.igev_stereo.IGEVStereo
-from libIGEVStereo.libIGEVStereo.core.igev_stereo import IGEVStereo
-from libIGEVStereo.libIGEVStereo.core.utils.utils import InputPadder
+import libigev_stereo
+libigev_stereo.libIGEVStereo.core.igev_stereo.IGEVStereo
+from libigev_stereo.libIGEVStereo.core.igev_stereo import IGEVStereo
+from libigev_stereo.libIGEVStereo.core.utils.utils import InputPadder
 from PIL import Image
 from matplotlib import pyplot as plt
 import os

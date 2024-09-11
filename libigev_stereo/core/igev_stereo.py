@@ -1,10 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from libIGEVStereo.libIGEVStereo.core.update import BasicMultiUpdateBlock
-from libIGEVStereo.libIGEVStereo.core.extractor import MultiBasicEncoder, Feature
-from libIGEVStereo.libIGEVStereo.core.geometry import Combined_Geo_Encoding_Volume
-from libIGEVStereo.libIGEVStereo.core.submodule import *
+from libigev_stereo.libIGEVStereo.core.update import BasicMultiUpdateBlock
+from libigev_stereo.libIGEVStereo.core.extractor import MultiBasicEncoder, Feature
+from libigev_stereo.libIGEVStereo.core.geometry import Combined_Geo_Encoding_Volume
+from libigev_stereo.libIGEVStereo.core.submodule import *
 import time
 
 
