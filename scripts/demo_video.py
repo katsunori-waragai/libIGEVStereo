@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../libigev_stereo/core')
+sys.path.append('../libigev_stereo/')
 import cv2
 import numpy as np
 import glob

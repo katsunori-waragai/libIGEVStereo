@@ -10,9 +10,9 @@ from torch.utils.tensorboard import SummaryWriter
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from core.igev_stereo import IGEVStereo
+from igev_stereo import IGEVStereo
 from evaluate_stereo import *
-import core.stereo_datasets as datasets
+import stereo_datasets as datasets
 import torch.nn.functional as F
 try:
     from torch.cuda.amp import GradScaler
