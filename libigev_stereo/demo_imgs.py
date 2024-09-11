@@ -11,9 +11,9 @@ from tqdm import tqdm
 from pathlib import Path
 
 import libigev_stereo
-libigev_stereo.libIGEVStereo.core.igev_stereo.IGEVStereo
-from libigev_stereo.libIGEVStereo.core.igev_stereo import IGEVStereo
-from libigev_stereo.libIGEVStereo.core.utils.utils import InputPadder
+libigev_stereo.core.igev_stereo.IGEVStereo
+from libigev_stereo.core.igev_stereo import IGEVStereo
+from libigev_stereo.core.utils.utils import InputPadder
 from PIL import Image
 from matplotlib import pyplot as plt
 import os

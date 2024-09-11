@@ -14,15 +14,15 @@ RUN apt install zstd
 RUN apt update && apt install -y eog nano
 RUN apt install -y meshlab
 
-# for depth anything
+
 RUN cd /root ; mkdir libIGEVStereo
 RUN cd /root/libIGEVStereo
 WORKDIR /root/libIGEVStereo
-COPY libIGEVStereo/*.py /root/libIGEVStereo/libIGEVStereo/
-RUN mkdir /root/libIGEVStereo/libIGEVStereo/core
-COPY libIGEVStereo/core/*.py /root/libIGEVStereo/libIGEVStereo/core/
+COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
+RUN mkdir /root/libIGEVStereo/libigev_stereo/core
+COPY libigev_stereo/core/*.py /root/libIGEVStereo/libigev_stereo/core/
 RUN python3 -m pip install gdown
-RUN mkdir -p /root/libIGEVStereo/libIGEVStereo/pretrained_models/sceneflow/; cd /root/libIGEVStereo/libIGEVStereo/pretrained_models/sceneflow/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
+RUN mkdir -p /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/; cd /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
 COPY pyproject.toml ./
 RUN python3 -m pip install .[dev]
 ENV LD_PRELOAD=/usr/local/lib/python3.8/dist-packages/sklearn/__check_build/../../scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
