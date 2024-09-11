@@ -1,6 +1,6 @@
 from __future__ import print_function, division
 import sys
-sys.path.append('core')
+sys.path.append('../libigev_stereo/core')
 
 import os
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0'

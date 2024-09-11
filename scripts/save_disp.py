@@ -1,5 +1,5 @@
 import sys
-sys.path.append('core')
+sys.path.append('../libigev_stereo/core')
 
 import argparse
 import glob
