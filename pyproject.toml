@@ -3,8 +3,8 @@ requires = ["setuptools", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "IGEV-docker"
-description = "docker for IGEV"
+name = "libIGEVStereo"
+description = "library version for IGEV"
 readme = "README.md"
 version = "0.0.1"
 authors = [
@@ -36,7 +36,7 @@ dev = [
 ]
 
 [project.urls]
-Repository = "https://github.com/katsunori-waragai/IGEV-docker"
+Repository = "https://github.com/katsunori-waragai/libIGEVStereo"
 
 [tool.setuptools]
 [tool.setuptools.packages.find]
