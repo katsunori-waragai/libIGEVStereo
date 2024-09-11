@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-from libIGEVStereo.core.utils.utils import bilinear_sampler
+from libIGEVStereo.libIGEVStereo.core.utils.utils import bilinear_sampler
 
 
 class Combined_Geo_Encoding_Volume:

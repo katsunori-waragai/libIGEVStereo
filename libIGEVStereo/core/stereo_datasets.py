@@ -12,8 +12,8 @@ from pathlib import Path
 from glob import glob
 import os.path as osp
 
-from libIGEVStereo.core.utils import frame_utils
-from libIGEVStereo.core.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
+from libIGEVStereo.libIGEVStereo.core.utils import frame_utils
+from libIGEVStereo.libIGEVStereo.core.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 
 
 class StereoDataset(data.Dataset):

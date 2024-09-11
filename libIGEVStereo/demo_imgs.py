@@ -9,8 +9,11 @@ import numpy as np
 import torch
 from tqdm import tqdm
 from pathlib import Path
-from libIGEVStereo.core.igev_stereo import IGEVStereo
-from libIGEVStereo.core.utils.utils import InputPadder
+
+import libIGEVStereo
+libIGEVStereo.libIGEVStereo.core.igev_stereo.IGEVStereo
+from libIGEVStereo.libIGEVStereo.core.igev_stereo import IGEVStereo
+from libIGEVStereo.libIGEVStereo.core.utils.utils import InputPadder
 from PIL import Image
 from matplotlib import pyplot as plt
 import os
