@@ -20,7 +20,7 @@ RUN cd /root/libIGEVStereo
 WORKDIR /root/libIGEVStereo
 COPY IGEV_Stereo/*.py /root/libIGEVStereo/IGEV_Stereo/
 RUN mkdir /root/libIGEVStereo/IGEV_Stereo/core
-COPY IGEV_Stereo/core/*.py /root/libIGEVStereo/IGEV_Stereo/core
+COPY IGEV_Stereo/core/*.py /root/libIGEVStereo/IGEV_Stereo/core/
 RUN python3 -m pip install gdown
 RUN mkdir -p /root/libIGEVStereo/IGEV_Stereo/pretrained_models/sceneflow/; cd /root/libIGEVStereo/IGEV_Stereo/pretrained_models/sceneflow/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
 COPY pyproject.toml ./
