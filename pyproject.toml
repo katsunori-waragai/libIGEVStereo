@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "IGEV-docker"
+description = "docker for IGEV"
+readme = "README.md"
+version = "0.0.1"
+authors = [
+    {name = "katsunori-waragai", email="waragai.katsunori@borgroid.co.jp"},
+]
+
+requires-python = ">= 3.8"
+
+dependencies = [
+    "ftfy",
+    "huggingface_hub",
+    "matplotlib",
+    "numpy<2",
+    "onnxruntime",
+    "onnx",
+    "open3d",
+    "opencv-python==3.4.18.65",
+    "opt_einsum",
+    "scikit-learn",
+    "timm==0.5.4",
+    "Ninja",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "gdown",
+]
+
+[project.urls]
+Repository = "https://github.com/katsunori-waragai/IGEV-docker"
+
+[tool.setuptools]
+[tool.setuptools.packages.find]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["<package name>"]  # package names should match these glob patterns (["*"] by default)
+exclude = []  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+
+[tool.black]
+line-length = 120
