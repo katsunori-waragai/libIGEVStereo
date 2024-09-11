@@ -18,11 +18,11 @@ RUN apt install -y meshlab
 RUN cd /root ; mkdir libIGEVStereo
 RUN cd /root/libIGEVStereo
 WORKDIR /root/libIGEVStereo
-COPY IGEV-Stereo/*.py /root/libIGEVStereo/IGEV-Stereo/
-RUN mkdir /root/libIGEVStereo/IGEV-Stereo/core
-COPY IGEV-Stereo/core/*.py /root/libIGEVStereo/IGEV-Stereo/core
+COPY IGEV_Stereo/*.py /root/libIGEVStereo/IGEV_Stereo/
+RUN mkdir /root/libIGEVStereo/IGEV_Stereo/core
+COPY IGEV_Stereo/core/*.py /root/libIGEVStereo/IGEV_Stereo/core
 RUN python3 -m pip install gdown
-RUN mkdir -p /root/libIGEVStereo/IGEV-Stereo/pretrained_models/sceneflow/; cd /root/libIGEVStereo/IGEV-Stereo/pretrained_models/sceneflow/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
+RUN mkdir -p /root/libIGEVStereo/IGEV_Stereo/pretrained_models/sceneflow/; cd /root/libIGEVStereo/IGEV_Stereo/pretrained_models/sceneflow/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
 COPY pyproject.toml ./
 RUN python3 -m pip install .[dev]
 ENV LD_PRELOAD=/usr/local/lib/python3.8/dist-packages/sklearn/__check_build/../../scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
