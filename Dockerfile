@@ -25,5 +25,5 @@ COPY scripts/*.py /root/libIGEVStereo/scripts/
 RUN python3 -m pip install gdown
 RUN mkdir -p /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/; cd /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
 COPY pyproject.toml ./
-RUN python3 -m pip install .[dev]
-ENV LD_PRELOAD=/usr/local/lib/python3.8/dist-packages/sklearn/__check_build/../../scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
+# RUN python3 -m pip install .[dev]
+# ENV LD_PRELOAD=/usr/local/lib/python3.8/dist-packages/sklearn/__check_build/../../scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
