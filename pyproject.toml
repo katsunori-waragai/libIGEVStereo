@@ -24,6 +24,7 @@ dependencies = [
     "opencv-python==3.4.18.65",
     "opt_einsum",
 #    "scikit-learn",
+    "scipy",
     "timm==0.5.4",
     "Ninja",
 ]
