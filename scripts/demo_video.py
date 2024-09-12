@@ -1,16 +1,17 @@
 import sys
 
 sys.path.append("../libigev_stereo/")
+import glob
+import os
+import argparse
+
 import cv2
 import numpy as np
-import glob
-from pathlib import Path
 from tqdm import tqdm
 import torch
 from PIL import Image
+
 from libigev_stereo import IGEVStereo
-import os
-import argparse
 from libigev_stereo.utils import InputPadder
 
 torch.backends.cudnn.benchmark = True
