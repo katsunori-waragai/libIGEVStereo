@@ -52,7 +52,7 @@ def demo(args):
             disp = padder.unpad(disp)
             file_stem = imfile1.split("/")[-2]
             filename = os.path.join(output_directory, f"{file_stem}.png")
-            plt.imsave(output_directory / f"{file_stem}.png", disp.squeeze(), cmap="jet")
+#            plt.imsave(output_directory / f"{file_stem}.png", disp.squeeze(), cmap="jet")
             if args.save_numpy:
                 np.save(output_directory / f"{file_stem}.npy", disp.squeeze())
             # disp = np.round(disp * 256).astype(np.uint16)
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--restore_ckpt", help="restore checkpoint", default="./pretrained_models/sceneflow/sceneflow.pth"
     )
-    parser.add_argument("--save_numpy", default=False, help="save output as numpy arrays")
+    parser.add_argument("--save_numpy", default=True, help="save output as numpy arrays")
 
     parser.add_argument("-l", "--left_imgs", help="path to all first (left) frames", default="./demo-imgs/*/im0.png")
     parser.add_argument("-r", "--right_imgs", help="path to all second (right) frames", default="./demo-imgs/*/im1.png")
