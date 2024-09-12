@@ -11,11 +11,11 @@ from pathlib import Path
 import numpy as np
 import torch
 from PIL import Image
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 from libigev_stereo.igev_stereo import IGEVStereo
-from libigev_stereo.utils import InputPadder
+from libigev_stereo.utils.utils import InputPadder
 
 
 def load_image(imfile):
