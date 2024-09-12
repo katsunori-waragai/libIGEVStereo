@@ -6,16 +6,16 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import argparse
 import glob
+from pathlib import Path
+
 import numpy as np
 import torch
+from PIL import Image
+from matplotlib import pyplot as plt
 from tqdm import tqdm
-from pathlib import Path
 
 from libigev_stereo.igev_stereo import IGEVStereo
 from libigev_stereo.utils import InputPadder
-from PIL import Image
-from matplotlib import pyplot as plt
-import os
 
 
 def load_image(imfile):
