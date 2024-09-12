@@ -11,7 +11,8 @@ from pathlib import Path
 import numpy as np
 import torch
 from PIL import Image
-#from matplotlib import pyplot as plt
+
+# from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 from libigev_stereo.igev_stereo import IGEVStereo
@@ -52,9 +53,11 @@ def demo(args):
             disp = padder.unpad(disp)
             file_stem = imfile1.split("/")[-2]
             filename = os.path.join(output_directory, f"{file_stem}.png")
-#            plt.imsave(output_directory / f"{file_stem}.png", disp.squeeze(), cmap="jet")
+            disparity = disp.squeeze()
+
+            #            plt.imsave(output_directory / f"{file_stem}.png", disparity, cmap="jet")
             if args.save_numpy:
-                np.save(output_directory / f"{file_stem}.npy", disp.squeeze())
+                np.save(output_directory / f"{file_stem}.npy", disparity)
             # disp = np.round(disp * 256).astype(np.uint16)
             # cv2.imwrite(filename, cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01),cv2.COLORMAP_JET), [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
 
