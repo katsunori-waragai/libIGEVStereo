@@ -20,7 +20,7 @@ dependencies = [
     "numpy<2",
 #    "onnxruntime",
 #    "onnx",
-    "open3d",
+#    "open3d",
     "opencv-python==3.4.18.65",
     "opt_einsum",
 #    "scikit-learn",
