@@ -8,10 +8,10 @@ from pathlib import Path
 from tqdm import tqdm
 import torch
 from PIL import Image
-from igev_stereo import IGEVStereo
+from libigev_stereo import IGEVStereo
 import os
 import argparse
-from utils.utils import InputPadder
+from libigev_stereo.utils import InputPadder
 
 torch.backends.cudnn.benchmark = True
 half_precision = True

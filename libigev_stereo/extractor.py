@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from igev_stereo.submodule import *
+from libigev_stereo.submodule import *
 import timm
 
 

@@ -6,8 +6,8 @@ import numpy as np
 import torch
 from tqdm import tqdm
 from pathlib import Path
-from libigev_stereo import IGEVStereo
-from libigev_stereo.utils import InputPadder
+from libigev_stereo.igev_stereo import IGEVStereo
+from libigev_stereo.utils.utils import InputPadder
 from PIL import Image
 import os
 import skimage.io
