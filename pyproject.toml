@@ -16,7 +16,7 @@ requires-python = ">= 3.8"
 dependencies = [
     "ftfy",
     "huggingface_hub",
-    "matplotlib",
+#    "matplotlib",
     "numpy<2",
 #    "onnxruntime",
 #    "onnx",
