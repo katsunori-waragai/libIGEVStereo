@@ -45,7 +45,6 @@ class DisparityCalculator:
 
     args: argparse.Namespace = field(default=None)
     model: torch.nn.DataParallel = field(default=None)
-    output_directory: Path = field(default=None)
 
     def __post_init__(self):
         self.model = torch.nn.DataParallel(IGEVStereo(self.args), device_ids=[0])
@@ -54,13 +53,10 @@ class DisparityCalculator:
         self.model = self.model.module
         self.model.to(DEVICE)
         self.model.eval()
-        self.output_directory = Path(self.args.output_directory)
-        self.output_directory.mkdir(exist_ok=True)
 
     def calc_disparity_name(self, leftname, rightname):
         torch_image1 = load_image(leftname)
         torch_image2 = load_image(rightname)
-
         return self.calc_by_torch_image(torch_image1, torch_image2)
 
     def calc_by_torch_image(self, torch_image1, torch_image2):
@@ -72,10 +68,17 @@ class DisparityCalculator:
         disparity = disp.squeeze()
         return disparity
 
+    def calc_by_bgr(self, bgr1: np.ndarray, bgr2: np.ndarray) -> np.ndarray:
+        torch_image1 = as_torch_img(bgr1, is_BGR_order=True)
+        torch_image2 = as_torch_img(bgr2, is_BGR_order=True)
+        return self.calc_by_torch_image(torch_image1, torch_image2)
+
 
 def demo(args):
     disparity_calculator = DisparityCalculator(args=args)
-    output_directory = disparity_calculator.output_directory
+    output_directory = Path(args.output_directory)
+    output_directory.mkdir(exist_ok=True)
+
     with torch.no_grad():
         left_images = sorted(glob.glob(args.left_imgs, recursive=True))
         right_images = sorted(glob.glob(args.right_imgs, recursive=True))
