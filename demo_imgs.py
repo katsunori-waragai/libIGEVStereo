@@ -45,6 +45,7 @@ class DisparityCalculator:
 
     args: argparse.Namespace = field(default=None)
     model: torch.nn.DataParallel = field(default=None)
+    output_directory: Path = field(default=None)
 
     def __post_init__(self):
         self.model = torch.nn.DataParallel(IGEVStereo(self.args), device_ids=[0])
@@ -53,9 +54,23 @@ class DisparityCalculator:
         self.model = self.model.module
         self.model.to(DEVICE)
         self.model.eval()
+        self.output_directory = Path(self.args.output_directory)
+        self.output_directory.mkdir(exist_ok=True)
 
-    def calc_disparity(self, leftimg, rightimg):
-        pass
+    def calc_disparity(self, leftname, rightname):
+        image1 = load_image(leftname)
+        image2 = load_image(rightname)
+
+        padder = InputPadder(image1.shape, divis_by=32)
+        image1, image2 = padder.pad(image1, image2)
+
+        disp = self.model(image1, image2, iters=args.valid_iters, test_mode=True)
+        disp = disp.cpu().numpy()
+        disp = padder.unpad(disp)
+        file_stem = leftname.split("/")[-2]
+        filename = self.output_directory / f"{file_stem}.png"
+        disparity = disp.squeeze()
+        return disparity
 
 
 def demo(args):
