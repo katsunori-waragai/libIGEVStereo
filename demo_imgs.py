@@ -20,11 +20,18 @@ from libigev_stereo.igev_stereo import IGEVStereo
 from libigev_stereo.utils.utils import InputPadder
 
 
+def as_torch_img(numpy_img: np.ndarray, is_BGR_order=True):
+    if numpy_img.shape[2] == 4:
+        numpy_img = numpy_img[:, :, :3]
+    if is_BGR_order:
+        numpy_img = cv2.cvtColor(numpy_img, cv2.COLOR_BGR2RGB)
+    img = torch.from_numpy(numpy_img).permute(2, 0, 1).float()
+    return img[None].to(DEVICE)
+
 
 def load_image(imfile):
     img = np.array(Image.open(imfile)).astype(np.uint8)
-    img = torch.from_numpy(img).permute(2, 0, 1).float()
-    return img[None].to(DEVICE)
+    return as_torch_img(img, is_BGR_order=False)
 
 
 def demo(args):
@@ -61,13 +68,20 @@ def demo(args):
             if args.save_numpy:
                 np.save(output_directory / f"{file_stem}.npy", disparity)
             disp = np.round(disp * 256).astype(np.uint16)
-            cv2.imwrite(filename, cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01),cv2.COLORMAP_JET), [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
+            cv2.imwrite(
+                filename,
+                cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01), cv2.COLORMAP_JET),
+                [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
+            )
             print(f"saved {filename}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--restore_ckpt", help="restore checkpoint", default="./libigev_stereo/pretrained_models/sceneflow/sceneflow.pth"
+        "--restore_ckpt",
+        help="restore checkpoint",
+        default="./libigev_stereo/pretrained_models/sceneflow/sceneflow.pth",
     )
     parser.add_argument("--save_numpy", default=True, help="save output as numpy arrays")
 
