@@ -74,41 +74,24 @@ class DisparityCalculator:
 
 
 def demo(args):
-    model = torch.nn.DataParallel(IGEVStereo(args), device_ids=[0])
-    model.load_state_dict(torch.load(args.restore_ckpt))
-
-    model = model.module
-    model.to(DEVICE)
-    model.eval()
-
-    output_directory = Path(args.output_directory)
-    output_directory.mkdir(exist_ok=True)
-
+    disparity_calculator = DisparityCalculator(args=args)
+    output_directory = disparity_calculator.output_directory
     with torch.no_grad():
         left_images = sorted(glob.glob(args.left_imgs, recursive=True))
         right_images = sorted(glob.glob(args.right_imgs, recursive=True))
         print(f"Found {len(left_images)} images. Saving files to {output_directory}/")
 
         for imfile1, imfile2 in tqdm(list(zip(left_images, right_images))):
-            image1 = load_image(imfile1)
-            image2 = load_image(imfile2)
-
-            padder = InputPadder(image1.shape, divis_by=32)
-            image1, image2 = padder.pad(image1, image2)
-
-            disp = model(image1, image2, iters=args.valid_iters, test_mode=True)
-            disp = disp.cpu().numpy()
-            disp = padder.unpad(disp)
+            disparity = disparity_calculator.calc_disparity(imfile1, imfile2)
             file_stem = imfile1.split("/")[-2]
             filename = output_directory / f"{file_stem}.png"
-            disparity = disp.squeeze()
 
             if args.save_numpy:
                 np.save(output_directory / f"{file_stem}.npy", disparity)
-            disp = np.round(disp * 256).astype(np.uint16)
+            disp = np.round(disparity * 256).astype(np.uint16)
             cv2.imwrite(
                 str(filename),
-                cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01), cv2.COLORMAP_JET),
+                cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET),
                 [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
             )
             print(f"saved {filename}")
