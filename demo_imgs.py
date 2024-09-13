@@ -57,7 +57,7 @@ class DisparityCalculator:
         self.output_directory = Path(self.args.output_directory)
         self.output_directory.mkdir(exist_ok=True)
 
-    def calc_disparity(self, leftname, rightname):
+    def calc_disparity_name(self, leftname, rightname):
         torch_image1 = load_image(leftname)
         torch_image2 = load_image(rightname)
 
@@ -82,7 +82,7 @@ def demo(args):
         print(f"Found {len(left_images)} images. Saving files to {output_directory}/")
 
         for imfile1, imfile2 in tqdm(list(zip(left_images, right_images))):
-            disparity = disparity_calculator.calc_disparity(imfile1, imfile2)
+            disparity = disparity_calculator.calc_disparity_name(imfile1, imfile2)
             file_stem = imfile1.split("/")[-2]
             filename = output_directory / f"{file_stem}.png"
 
