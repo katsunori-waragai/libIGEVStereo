@@ -8,7 +8,7 @@ description = "library version for IGEV"
 readme = "README.md"
 version = "0.0.1"
 authors = [
-    {name = "katsunori-waragai", email="waragai.katsunori@borgroid.co.jp"},
+    {name = "katsunori-waragai", email="huyuhiko1128@gmail.com"},
 ]
 
 requires-python = ">= 3.8"
