@@ -7,13 +7,12 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import argparse
 import glob
 from pathlib import Path
+from dataclasses import dataclass, field
 
 import cv2
 import numpy as np
 import torch
 from PIL import Image
-
-from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 from libigev_stereo.igev_stereo import IGEVStereo
@@ -36,6 +35,42 @@ def as_torch_img(numpy_img: np.ndarray, is_BGR_order=True):
 def load_image(imfile):
     img = np.array(Image.open(imfile)).astype(np.uint8)
     return as_torch_img(img, is_BGR_order=False)
+
+
+@dataclass
+class DisparityCalculator:
+    """
+    args: Namespace=
+    """
+
+    args: argparse.Namespace = field(default=None)
+    model: torch.nn.DataParallel = field(default=None)
+    output_directory: Path = field(default=None)
+
+    def __post_init__(self):
+        self.model = torch.nn.DataParallel(IGEVStereo(self.args), device_ids=[0])
+        self.model.load_state_dict(torch.load(args.restore_ckpt))
+
+        self.model = self.model.module
+        self.model.to(DEVICE)
+        self.model.eval()
+        self.output_directory = Path(self.args.output_directory)
+        self.output_directory.mkdir(exist_ok=True)
+
+    def calc_disparity(self, leftname, rightname):
+        image1 = load_image(leftname)
+        image2 = load_image(rightname)
+
+        padder = InputPadder(image1.shape, divis_by=32)
+        image1, image2 = padder.pad(image1, image2)
+
+        disp = self.model(image1, image2, iters=args.valid_iters, test_mode=True)
+        disp = disp.cpu().numpy()
+        disp = padder.unpad(disp)
+        file_stem = leftname.split("/")[-2]
+        filename = self.output_directory / f"{file_stem}.png"
+        disparity = disp.squeeze()
+        return disparity
 
 
 def demo(args):
@@ -68,7 +103,6 @@ def demo(args):
             filename = output_directory / f"{file_stem}.png"
             disparity = disp.squeeze()
 
-            plt.imsave(output_directory / f"{file_stem}.png", disparity, cmap="jet")
             if args.save_numpy:
                 np.save(output_directory / f"{file_stem}.npy", disparity)
             disp = np.round(disp * 256).astype(np.uint16)
@@ -123,5 +157,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
-
+    print(f"{args=}")
     demo(args)
