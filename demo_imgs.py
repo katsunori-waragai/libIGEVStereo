@@ -14,7 +14,7 @@ import numpy as np
 import torch
 from PIL import Image
 
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 from libigev_stereo.igev_stereo import IGEVStereo
@@ -87,7 +87,7 @@ def demo(args):
             filename = output_directory / f"{file_stem}.png"
             disparity = disp.squeeze()
 
-            plt.imsave(output_directory / f"{file_stem}.png", disparity, cmap="jet")
+#            plt.imsave(output_directory / f"{file_stem}.png", disparity, cmap="jet")
             if args.save_numpy:
                 np.save(output_directory / f"{file_stem}.npy", disparity)
             disp = np.round(disp * 256).astype(np.uint16)
