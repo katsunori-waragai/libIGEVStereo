@@ -61,9 +61,11 @@ class DisparityCalculator:
         torch_image1 = load_image(leftname)
         torch_image2 = load_image(rightname)
 
+        return self.calc_by_torch_image(torch_image1, torch_image2)
+
+    def calc_by_torch_image(self, torch_image1, torch_image2):
         padder = InputPadder(torch_image1.shape, divis_by=32)
         torch_image1, torch_image2 = padder.pad(torch_image1, torch_image2)
-
         disp = self.model(torch_image1, torch_image2, iters=args.valid_iters, test_mode=True)
         disp = disp.cpu().numpy()
         disp = padder.unpad(disp)
