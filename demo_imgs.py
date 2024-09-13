@@ -1,5 +1,6 @@
-import sys
-
+"""
+sample script for IGEV Stereo
+"""
 DEVICE = "cuda"
 import os
 
@@ -54,12 +55,12 @@ class DisparityCalculator:
         self.model.to(DEVICE)
         self.model.eval()
 
-    def calc_disparity_name(self, leftname, rightname):
+    def calc_disparity_name(self, leftname, rightname) -> np.ndarray:
         torch_image1 = load_image(leftname)
         torch_image2 = load_image(rightname)
         return self.calc_by_torch_image(torch_image1, torch_image2)
 
-    def calc_by_torch_image(self, torch_image1, torch_image2):
+    def calc_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray:
         padder = InputPadder(torch_image1.shape, divis_by=32)
         torch_image1, torch_image2 = padder.pad(torch_image1, torch_image2)
         disp = self.model(torch_image1, torch_image2, iters=args.valid_iters, test_mode=True)
