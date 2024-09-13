@@ -44,8 +44,10 @@ class DisparityCalculator:
     args: Namespace=
     """
     args: argparse.Namespace = field(default=None)
-    model = torch.nn.DataParallel(IGEVStereo(args), device_ids=[0])
+    model: torch.nn.DataParallel = field(default=None)
+
     def __post_init__(self):
+        self.model = torch.nn.DataParallel(IGEVStereo(self.args), device_ids=[0])
         self.model.load_state_dict(torch.load(args.restore_ckpt))
 
         self.model = self.model.module
@@ -94,7 +96,7 @@ def demo(args):
                 cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01), cv2.COLORMAP_JET),
                 [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
             )
-            print(f"saved {filename}")        pass
+            print(f"saved {filename}")
 
 
 
