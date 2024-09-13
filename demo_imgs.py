@@ -19,6 +19,10 @@ from tqdm import tqdm
 from libigev_stereo.igev_stereo import IGEVStereo
 from libigev_stereo.utils.utils import InputPadder
 
+REPO_ROOT = Path(__file__).resolve().parent
+
+DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/pretrained_models/sceneflow/sceneflow.pth"
+
 
 def as_torch_img(numpy_img: np.ndarray, is_BGR_order=True):
     if numpy_img.shape[2] == 4:
@@ -81,7 +85,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--restore_ckpt",
         help="restore checkpoint",
-        default="./libigev_stereo/pretrained_models/sceneflow/sceneflow.pth",
+        default=DEFAULT_MODEL,
     )
     parser.add_argument("--save_numpy", default=True, help="save output as numpy arrays")
 
