@@ -31,7 +31,7 @@ RUN mkdir -p /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/; cd
 COPY pyproject.toml ./
 COPY sample.sh ./
 
-RUN cd /root ; git clone git@github.com:katsunori-waragai/disparity-view.git
+RUN cd /root ; git clone https://github.com/katsunori-waragai/disparity-view.git
 RUN cd /root/disparity-view; python3 -m pip install .[dev]
 WORKDIR /root/libIGEVStereo
 

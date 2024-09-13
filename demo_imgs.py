@@ -20,6 +20,7 @@ from libigev_stereo.igev_stereo import IGEVStereo
 from libigev_stereo.utils.utils import InputPadder
 
 
+
 def load_image(imfile):
     img = np.array(Image.open(imfile)).astype(np.uint8)
     img = torch.from_numpy(img).permute(2, 0, 1).float()
@@ -53,20 +54,20 @@ def demo(args):
             disp = disp.cpu().numpy()
             disp = padder.unpad(disp)
             file_stem = imfile1.split("/")[-2]
-            filename = os.path.join(output_directory, f"{file_stem}.png")
+            filename = output_directory / f"{file_stem}.png"
             disparity = disp.squeeze()
 
-            #            plt.imsave(output_directory / f"{file_stem}.png", disparity, cmap="jet")
+            plt.imsave(output_directory / f"{file_stem}.png", disparity, cmap="jet")
             if args.save_numpy:
                 np.save(output_directory / f"{file_stem}.npy", disparity)
             disp = np.round(disp * 256).astype(np.uint16)
             cv2.imwrite(filename, cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01),cv2.COLORMAP_JET), [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
-
+            print(f"saved {filename}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--restore_ckpt", help="restore checkpoint", default="./pretrained_models/sceneflow/sceneflow.pth"
+        "--restore_ckpt", help="restore checkpoint", default="./libigev_stereo/pretrained_models/sceneflow/sceneflow.pth"
     )
     parser.add_argument("--save_numpy", default=True, help="save output as numpy arrays")
 
