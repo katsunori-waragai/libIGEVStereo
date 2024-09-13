@@ -73,7 +73,7 @@ def demo(args):
                 np.save(output_directory / f"{file_stem}.npy", disparity)
             disp = np.round(disp * 256).astype(np.uint16)
             cv2.imwrite(
-                filename,
+                str(filename),
                 cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01), cv2.COLORMAP_JET),
                 [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
             )
