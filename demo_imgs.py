@@ -58,17 +58,15 @@ class DisparityCalculator:
         self.output_directory.mkdir(exist_ok=True)
 
     def calc_disparity(self, leftname, rightname):
-        image1 = load_image(leftname)
-        image2 = load_image(rightname)
+        torch_image1 = load_image(leftname)
+        torch_image2 = load_image(rightname)
 
-        padder = InputPadder(image1.shape, divis_by=32)
-        image1, image2 = padder.pad(image1, image2)
+        padder = InputPadder(torch_image1.shape, divis_by=32)
+        torch_image1, torch_image2 = padder.pad(torch_image1, torch_image2)
 
-        disp = self.model(image1, image2, iters=args.valid_iters, test_mode=True)
+        disp = self.model(torch_image1, torch_image2, iters=args.valid_iters, test_mode=True)
         disp = disp.cpu().numpy()
         disp = padder.unpad(disp)
-        file_stem = leftname.split("/")[-2]
-        filename = self.output_directory / f"{file_stem}.png"
         disparity = disp.squeeze()
         return disparity
 
