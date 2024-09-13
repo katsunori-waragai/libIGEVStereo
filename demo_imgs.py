@@ -13,8 +13,6 @@ import cv2
 import numpy as np
 import torch
 from PIL import Image
-
-# from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 from libigev_stereo.igev_stereo import IGEVStereo
@@ -38,11 +36,13 @@ def load_image(imfile):
     img = np.array(Image.open(imfile)).astype(np.uint8)
     return as_torch_img(img, is_BGR_order=False)
 
+
 @dataclass
 class DisparityCalculator:
     """
     args: Namespace=
     """
+
     args: argparse.Namespace = field(default=None)
     model: torch.nn.DataParallel = field(default=None)
 
@@ -56,6 +56,7 @@ class DisparityCalculator:
 
     def calc_disparity(self, leftimg, rightimg):
         pass
+
 
 def demo(args):
     model = torch.nn.DataParallel(IGEVStereo(args), device_ids=[0])
@@ -87,7 +88,6 @@ def demo(args):
             filename = output_directory / f"{file_stem}.png"
             disparity = disp.squeeze()
 
-#            plt.imsave(output_directory / f"{file_stem}.png", disparity, cmap="jet")
             if args.save_numpy:
                 np.save(output_directory / f"{file_stem}.npy", disparity)
             disp = np.round(disp * 256).astype(np.uint16)
@@ -97,7 +97,6 @@ def demo(args):
                 [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
             )
             print(f"saved {filename}")
-
 
 
 if __name__ == "__main__":
