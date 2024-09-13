@@ -7,6 +7,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import argparse
 import glob
 from pathlib import Path
+from dataclasses import dataclass, field
 
 import cv2
 import numpy as np
@@ -37,6 +38,22 @@ def load_image(imfile):
     img = np.array(Image.open(imfile)).astype(np.uint8)
     return as_torch_img(img, is_BGR_order=False)
 
+@dataclass
+class DisparityCalculator:
+    """
+    args: Namespace=
+    """
+    args: argparse.Namespace = field(default=None)
+    model = torch.nn.DataParallel(IGEVStereo(args), device_ids=[0])
+    def __post_init__(self):
+        self.model.load_state_dict(torch.load(args.restore_ckpt))
+
+        self.model = self.model.module
+        self.model.to(DEVICE)
+        self.model.eval()
+
+    def calc_disparity(self, leftimg, rightimg):
+        pass
 
 def demo(args):
     model = torch.nn.DataParallel(IGEVStereo(args), device_ids=[0])
@@ -77,7 +94,8 @@ def demo(args):
                 cv2.applyColorMap(cv2.convertScaleAbs(disp.squeeze(), alpha=0.01), cv2.COLORMAP_JET),
                 [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
             )
-            print(f"saved {filename}")
+            print(f"saved {filename}")        pass
+
 
 
 if __name__ == "__main__":
@@ -123,5 +141,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
-
+    print(f"{args=}")
     demo(args)
