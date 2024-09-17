@@ -1,7 +1,8 @@
-import numpy as np
-from PIL import Image
 import os
 import re
+
+import numpy as np
+from PIL import Image
 import json
 import imageio
 import cv2

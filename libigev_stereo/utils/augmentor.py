@@ -1,9 +1,10 @@
-import numpy as np
 import random
 import warnings
 import os
-import time
+# import time
 from glob import glob
+
+import numpy as np
 from skimage import color, io
 from PIL import Image
 
@@ -11,9 +12,9 @@ import cv2
 cv2.setNumThreads(0)
 cv2.ocl.setUseOpenCL(False)
 
-import torch
+# import torch
 from torchvision.transforms import ColorJitter, functional, Compose
-import torch.nn.functional as F
+# import torch.nn.functional as F
 
 def get_middlebury_images():
     root = "datasets/Middlebury/MiddEval3"

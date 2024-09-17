@@ -8,12 +8,12 @@ import numpy as np
 import torch
 from PIL import Image
 
+from libigev_stereo.igev_stereo import IGEVStereo
+from libigev_stereo.utils.utils import InputPadder
+
 DEVICE = "cuda"
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-
-from libigev_stereo.igev_stereo import IGEVStereo
-from libigev_stereo.utils.utils import InputPadder
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/pretrained_models/sceneflow/sceneflow.pth"

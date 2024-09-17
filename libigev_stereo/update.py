@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from opt_einsum import contract
+# from opt_einsum import contract
 
 
 class FlowHead(nn.Module):
