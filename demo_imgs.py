@@ -53,9 +53,10 @@ class DisparityCalculator:
 
         self.model = self.model.module
         self.model.to(DEVICE)
+        
         self.model.eval()
 
-    def calc_disparity_name(self, leftname, rightname) -> np.ndarray:
+    def calc_by_name(self, leftname, rightname) -> np.ndarray:
         torch_image1 = load_image(leftname)
         torch_image2 = load_image(rightname)
         return self.calc_by_torch_image(torch_image1, torch_image2)
@@ -86,7 +87,7 @@ def demo(args):
         print(f"Found {len(left_images)} images. Saving files to {output_directory}/")
 
         for imfile1, imfile2 in tqdm(list(zip(left_images, right_images))):
-            disparity = disparity_calculator.calc_disparity_name(imfile1, imfile2)
+            disparity = disparity_calculator.calc_by_name(imfile1, imfile2)
             file_stem = imfile1.split("/")[-2]
             filename = output_directory / f"{file_stem}.png"
 
