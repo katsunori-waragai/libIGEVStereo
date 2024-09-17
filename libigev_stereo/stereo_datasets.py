@@ -1,14 +1,15 @@
-import numpy as np
-import torch
-import torch.utils.data as data
-import torch.nn.functional as F
-import logging
 import os
 import re
 import copy
 import random
 from glob import glob
 import os.path as osp
+
+import numpy as np
+import torch
+import torch.utils.data as data
+import torch.nn.functional as F
+import logging
 
 from libigev_stereo.utils import frame_utils
 from libigev_stereo.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
