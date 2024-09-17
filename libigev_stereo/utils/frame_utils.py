@@ -1,7 +1,6 @@
 import numpy as np
 from PIL import Image
 import os
-# from os.path import *
 import re
 import json
 import imageio
