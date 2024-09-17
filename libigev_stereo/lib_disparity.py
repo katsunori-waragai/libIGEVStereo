@@ -1,14 +1,14 @@
 import argparse
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import cv2
 import numpy as np
-from PIL import Image
 import torch
+from PIL import Image
 
 DEVICE = "cuda"
-import os
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
@@ -38,7 +38,12 @@ def load_image(imfile):
 @dataclass
 class DisparityCalculator:
     """
-    args: Namespace=
+    A class to calculate disparity.
+
+    The original code is in
+        https://github.com/gangweiX/IGEV
+
+    calc_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray
     """
 
     args: argparse.Namespace = field(default=None)
