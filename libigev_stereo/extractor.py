@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from libigev_stereo.submodule import *
+from libigev_stereo.submodule import Conv2x_IN, BasicConv_IN
 import timm
 
 
