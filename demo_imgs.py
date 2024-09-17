@@ -1,6 +1,7 @@
 """
 sample script for IGEV Stereo
 """
+
 from libigev_stereo.lib_disparity import DEFAULT_MODEL, DisparityCalculator
 
 DEVICE = "cuda"
