@@ -1,5 +1,6 @@
-import sys
-
+"""
+sample script for IGEV Stereo
+"""
 DEVICE = "cuda"
 import os
 
@@ -45,7 +46,6 @@ class DisparityCalculator:
 
     args: argparse.Namespace = field(default=None)
     model: torch.nn.DataParallel = field(default=None)
-    output_directory: Path = field(default=None)
 
     def __post_init__(self):
         self.model = torch.nn.DataParallel(IGEVStereo(self.args), device_ids=[0])
@@ -53,36 +53,41 @@ class DisparityCalculator:
 
         self.model = self.model.module
         self.model.to(DEVICE)
+        
         self.model.eval()
-        self.output_directory = Path(self.args.output_directory)
-        self.output_directory.mkdir(exist_ok=True)
 
-    def calc_disparity(self, leftname, rightname):
-        image1 = load_image(leftname)
-        image2 = load_image(rightname)
+    def calc_by_name(self, leftname, rightname) -> np.ndarray:
+        torch_image1 = load_image(leftname)
+        torch_image2 = load_image(rightname)
+        return self.calc_by_torch_image(torch_image1, torch_image2)
 
-        padder = InputPadder(image1.shape, divis_by=32)
-        image1, image2 = padder.pad(image1, image2)
-
-        disp = self.model(image1, image2, iters=args.valid_iters, test_mode=True)
+    def calc_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray:
+        padder = InputPadder(torch_image1.shape, divis_by=32)
+        torch_image1, torch_image2 = padder.pad(torch_image1, torch_image2)
+        disp = self.model(torch_image1, torch_image2, iters=args.valid_iters, test_mode=True)
         disp = disp.cpu().numpy()
         disp = padder.unpad(disp)
-        file_stem = leftname.split("/")[-2]
-        filename = self.output_directory / f"{file_stem}.png"
         disparity = disp.squeeze()
         return disparity
+
+    def calc_by_bgr(self, bgr1: np.ndarray, bgr2: np.ndarray) -> np.ndarray:
+        torch_image1 = as_torch_img(bgr1, is_BGR_order=True)
+        torch_image2 = as_torch_img(bgr2, is_BGR_order=True)
+        return self.calc_by_torch_image(torch_image1, torch_image2)
 
 
 def demo(args):
     disparity_calculator = DisparityCalculator(args=args)
-    output_directory = disparity_calculator.output_directory
+    output_directory = Path(args.output_directory)
+    output_directory.mkdir(exist_ok=True)
+
     with torch.no_grad():
         left_images = sorted(glob.glob(args.left_imgs, recursive=True))
         right_images = sorted(glob.glob(args.right_imgs, recursive=True))
         print(f"Found {len(left_images)} images. Saving files to {output_directory}/")
 
         for imfile1, imfile2 in tqdm(list(zip(left_images, right_images))):
-            disparity = disparity_calculator.calc_disparity(imfile1, imfile2)
+            disparity = disparity_calculator.calc_by_name(imfile1, imfile2)
             file_stem = imfile1.split("/")[-2]
             filename = output_directory / f"{file_stem}.png"
 
