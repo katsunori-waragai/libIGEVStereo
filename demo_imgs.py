@@ -4,10 +4,7 @@ sample script for IGEV Stereo
 
 from libigev_stereo.lib_disparity import DEFAULT_MODEL, DisparityCalculator
 
-DEVICE = "cuda"
-import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import argparse
 import glob
 from pathlib import Path

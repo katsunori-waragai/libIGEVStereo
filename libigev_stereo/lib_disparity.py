@@ -7,12 +7,18 @@ import numpy as np
 from PIL import Image
 import torch
 
-from demo_imgs import DEVICE, args
+DEVICE = "cuda"
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 from libigev_stereo.igev_stereo import IGEVStereo
 from libigev_stereo.utils.utils import InputPadder
 
-REPO_ROOT = Path(__file__).resolve().parent
+REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/pretrained_models/sceneflow/sceneflow.pth"
+
+assert DEFAULT_MODEL.is_file()
 
 
 def as_torch_img(numpy_img: np.ndarray, is_BGR_order=True):
@@ -40,7 +46,7 @@ class DisparityCalculator:
 
     def __post_init__(self):
         self.model = torch.nn.DataParallel(IGEVStereo(self.args), device_ids=[0])
-        self.model.load_state_dict(torch.load(args.restore_ckpt))
+        self.model.load_state_dict(torch.load(self.args.restore_ckpt))
 
         self.model = self.model.module
         self.model.to(DEVICE)
