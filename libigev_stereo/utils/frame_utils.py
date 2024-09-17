@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
-from os.path import *
+import os
+# from os.path import *
 import re
 import json
 import imageio
@@ -154,11 +155,11 @@ def readDispTartanAir(file_name):
 
 
 def readDispMiddlebury(file_name):
-    assert basename(file_name) == 'disp0GT.pfm'
+    assert os.path.basename(file_name) == 'disp0GT.pfm'
     disp = readPFM(file_name).astype(np.float32)
     assert len(disp.shape) == 2
     nocc_pix = file_name.replace('disp0GT.pfm', 'mask0nocc.png')
-    assert exists(nocc_pix)
+    assert os.path.exists(nocc_pix)
     nocc_pix = imageio.imread(nocc_pix) == 255
     assert np.any(nocc_pix)
     return disp, nocc_pix
@@ -171,7 +172,7 @@ def writeFlowKITTI(filename, uv):
     
 
 def read_gen(file_name, pil=False):
-    ext = splitext(file_name)[-1]
+    ext = os.path.splitext(file_name)[-1]
     if ext == '.png' or ext == '.jpeg' or ext == '.ppm' or ext == '.jpg':
         return Image.open(file_name)
     elif ext == '.bin' or ext == '.raw':
