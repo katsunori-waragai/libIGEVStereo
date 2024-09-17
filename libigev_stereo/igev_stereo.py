@@ -1,11 +1,20 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 from libigev_stereo.update import BasicMultiUpdateBlock
 from libigev_stereo.extractor import MultiBasicEncoder, Feature
 from libigev_stereo.geometry import Combined_Geo_Encoding_Volume
-from libigev_stereo.submodule import (BasicConv, BasicConv_IN, Conv2x_IN, Conv2x, FeatureAtt, build_gwc_volume,
-                                      context_upsample, disparity_regression)
+from libigev_stereo.submodule import (
+    BasicConv,
+    BasicConv_IN,
+    Conv2x_IN,
+    Conv2x,
+    FeatureAtt,
+    build_gwc_volume,
+    context_upsample,
+    disparity_regression,
+)
 
 try:
     autocast = torch.cuda.amp.autocast
