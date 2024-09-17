@@ -18,8 +18,7 @@ RUN apt install -y meshlab
 RUN cd /root ; mkdir libIGEVStereo
 RUN cd /root/libIGEVStereo
 WORKDIR /root/libIGEVStereo
-RUN mkdir /root/libIGEVStereo/libigev_stereo/
-RUN mkdir /root/libIGEVStereo/libigev_stereo/utils
+RUN mkdir -p /root/libIGEVStereo/libigev_stereo/utils
 RUN mkdir /root/libIGEVStereo/scripts/
 RUN mkdir -p /root/libIGEVStereo/test/test-imgs/
 COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
@@ -37,4 +36,3 @@ RUN cd /root/disparity-view; python3 -m pip install .[dev]
 WORKDIR /root/libIGEVStereo
 
 # RUN python3 -m pip install .[dev]
-# ENV LD_PRELOAD=/usr/local/lib/python3.8/dist-packages/sklearn/__check_build/../../scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
