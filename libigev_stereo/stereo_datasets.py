@@ -14,6 +14,7 @@ import logging
 from libigev_stereo.utils import frame_utils
 from libigev_stereo.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 
+
 class StereoDataset(data.Dataset):
     def __init__(self, aug_params=None, sparse=False, reader=None):
         self.augmentor = None
