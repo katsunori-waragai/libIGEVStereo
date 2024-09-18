@@ -22,7 +22,6 @@ RUN mkdir -p /root/libIGEVStereo/libigev_stereo/utils
 RUN mkdir /root/libIGEVStereo/scripts/
 RUN mkdir -p /root/libIGEVStereo/test/test-imgs/
 COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
-COPY libigev_stereo/utils/*.py /root/libIGEVStereo/libigev_stereo/utils/
 COPY *.py ./
 COPY test/test-imgs/ /root/libIGEVStereo/test/test-imgs/
 COPY test/*.py /root/libIGEVStereo/test/
