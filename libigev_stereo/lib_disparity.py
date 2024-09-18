@@ -16,7 +16,7 @@ DEVICE = "cuda"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/pretrained_models/sceneflow/sceneflow.pth"
+DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/models/sceneflow.pth"
 
 assert DEFAULT_MODEL.is_file()
 
