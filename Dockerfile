@@ -23,7 +23,6 @@ RUN mkdir /root/libIGEVStereo/scripts/
 RUN mkdir -p /root/libIGEVStereo/test/test-imgs/
 COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
 COPY libigev_stereo/utils/*.py /root/libIGEVStereo/libigev_stereo/utils/
-# COPY scripts/*.py /root/libIGEVStereo/scripts/
 COPY *.py ./
 COPY test/test-imgs/ /root/libIGEVStereo/test/test-imgs/
 COPY test/*.py /root/libIGEVStereo/test/
@@ -36,4 +35,4 @@ RUN cd /root ; git clone https://github.com/katsunori-waragai/disparity-view.git
 RUN cd /root/disparity-view; python3 -m pip install .[dev]
 WORKDIR /root/libIGEVStereo
 
-# RUN python3 -m pip install .[dev]
+RUN python3 -m pip install .[dev]
