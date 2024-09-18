@@ -1,5 +1,7 @@
 """
 sample script for IGEV Stereo
+original:
+    https://github.com/gangweiX/IGEV
 """
 
 import argparse
