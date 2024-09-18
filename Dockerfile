@@ -24,7 +24,7 @@ RUN mkdir -p /root/libIGEVStereo/test/test-imgs/
 COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
 COPY *.py ./
 COPY test/test-imgs/ /root/libIGEVStereo/test/test-imgs/
-COPY test/*.py /root/libIGEVStereo/test/
+COPY test/*.py test/*.sh /root/libIGEVStereo/test/
 RUN python3 -m pip install gdown
 RUN mkdir -p /root/libIGEVStereo/libigev_stereo/models/ ; cd /root/libIGEVStereo/libigev_stereo/models/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
 COPY pyproject.toml ./
