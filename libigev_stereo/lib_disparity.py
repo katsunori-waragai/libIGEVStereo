@@ -9,7 +9,7 @@ import torch
 from PIL import Image
 
 from libigev_stereo.igev_stereo import IGEVStereo
-from libigev_stereo.utils.utils import InputPadder
+from libigev_stereo.utils import InputPadder
 
 DEVICE = "cuda"
 
