@@ -53,7 +53,7 @@ def test_all():
         mixed_precision=False,
         n_downsample=2,
         n_gru_layers=3,
-        output_directory="./demo-output/",
+        output_directory="./test-output/",
         restore_ckpt="../libigev_stereo/models/sceneflow.pth",
         right_imgs="test/test-imgs/PlaytableP/im1.png",
         save_numpy=True,
@@ -65,3 +65,9 @@ def test_all():
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
     print(f"{args=}")
     demo(args)
+    assert Path("./test-output/").is_dir()
+    assert Path("./test-output/Motorcycle").is_dir()
+    assert Path("./test-output/PlaytableP").is_dir()
+    assert list(Path("./test-output/Motorcycle").glob("*.png"))
+    assert list(Path("./test-output/PlaytableP").glob("*.png"))
+
