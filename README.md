@@ -20,6 +20,17 @@ docker_run.sh
 python3 -m pip install .
 ```
 
+## download model file
+Pretrained models can be downloaded from [google drive](https://drive.google.com/drive/folders/1SsMHRyN7808jDViMN1sKz1Nx-71JxUuz?usp=share_link)
+
+
+## sample execution
+```commandline
+#!/bin/sh
+python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l test/test-imgs/PlaytableP/im0.png -r test/test-imgs/PlaytableP/im1.png
+```
+ 
+
 ## npy file viewer
 - pip install disparity-viewer をすること
 - view_npy コマンドを自作している。
