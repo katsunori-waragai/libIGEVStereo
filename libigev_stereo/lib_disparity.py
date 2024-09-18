@@ -15,11 +15,6 @@ DEVICE = "cuda"
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/models/sceneflow.pth"
-
-assert DEFAULT_MODEL.is_file()
-
 
 def as_torch_img(numpy_img: np.ndarray, is_BGR_order=True):
     if numpy_img.shape[2] == 4:
