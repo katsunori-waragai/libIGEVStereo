@@ -8,8 +8,8 @@ import numpy as np
 import torch
 from PIL import Image
 
-from libigev_stereo.igev_stereo import IGEVStereo
-from libigev_stereo.utils import InputPadder
+from stereoigev.igev_stereo import IGEVStereo
+from stereoigev.utils import InputPadder
 
 DEVICE = "cuda"
 
