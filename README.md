@@ -1,13 +1,23 @@
 # libIGEVStereo
 module to use IGEVStereo
 
+## what is IGEV Stereo
+![](doc/demo-imgs.png)
 # Under Development
 
-## install
+## checked environment
+- NVIDIA Jetson AGX orin
+- Ubuntu 20
+- python3.8
+
+## install (docker case)
 docker_build.sh
 docker_run.sh
 
-bash sample.sh
+## install 
+```commandline
+python3 -m pip install .
+```
 
 ## npy file viewer
 - pip install disparity-viewer をすること
