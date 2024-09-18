@@ -68,5 +68,6 @@ def test_all():
     assert Path("./test-output/").is_dir()
     assert list(Path("./test-output/").glob("*.png"))
 
+
 if __name__ == "__main__":
     test_all()

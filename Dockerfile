@@ -27,7 +27,7 @@ COPY test/test-imgs/ /root/libIGEVStereo/test/test-imgs/
 COPY test/*.py test/*.sh /root/libIGEVStereo/test/
 RUN python3 -m pip install gdown
 RUN mkdir -p /root/libIGEVStereo/libigev_stereo/models/ ; cd /root/libIGEVStereo/libigev_stereo/models/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
-COPY pyproject.toml ./
+COPY pyproject.toml Makefile ./
 COPY sample.sh ./
 
 RUN cd /root ; git clone https://github.com/katsunori-waragai/disparity-view.git
