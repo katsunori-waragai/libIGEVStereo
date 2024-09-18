@@ -3,6 +3,7 @@ module to use IGEVStereo
 
 ## what is IGEV Stereo
 ![](doc/demo-imgs.png)
+![](doc/IGEV-Stereo.png)
 # Under Development
 
 ## checked environment
