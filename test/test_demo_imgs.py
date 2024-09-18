@@ -11,7 +11,7 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from libigev_stereo.lib_disparity import DisparityCalculator
+from stereoigev.lib_disparity import DisparityCalculator
 
 
 def demo(args):
@@ -54,7 +54,7 @@ def test_all():
         n_downsample=2,
         n_gru_layers=3,
         output_directory="./test-output/",
-        restore_ckpt="../libigev_stereo/models/sceneflow.pth",
+        restore_ckpt="../stereoigev/models/sceneflow.pth",
         right_imgs="test-imgs/PlaytableP/im1.png",
         save_numpy=True,
         shared_backbone=False,

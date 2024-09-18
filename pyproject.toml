@@ -3,7 +3,7 @@ requires = ["setuptools", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "libigev_stereo"
+name = "stereoigev"
 description = "library version for IGEV"
 readme = "README.md"
 version = "0.0.1"
@@ -32,7 +32,7 @@ dev = [
 Repository = "https://github.com/katsunori-waragai/libIGEVStereo"
 
 [tool.setuptools]
-packages = ["libigev_stereo"]
+packages = ["stereoigev"]
 
 [tool.black]
 line-length = 120

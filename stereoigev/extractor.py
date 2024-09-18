@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import timm
 
-from libigev_stereo.submodule import Conv2x_IN, BasicConv_IN
+from stereoigev.submodule import Conv2x_IN, BasicConv_IN
 
 
 class ResidualBlock(nn.Module):

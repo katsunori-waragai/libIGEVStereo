@@ -11,7 +11,7 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from libigev_stereo.lib_disparity import DisparityCalculator
+from stereoigev.lib_disparity import DisparityCalculator
 
 
 def demo(args):
@@ -42,7 +42,7 @@ def demo(args):
 
 if __name__ == "__main__":
     REPO_ROOT = Path(__file__).resolve().parent
-    DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/models/sceneflow.pth"
+    DEFAULT_MODEL = REPO_ROOT / "stereoigev/models/sceneflow.pth"
     print(f"{DEFAULT_MODEL=}")
 
     assert DEFAULT_MODEL.is_file()
