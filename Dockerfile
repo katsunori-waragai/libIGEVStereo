@@ -18,7 +18,7 @@ RUN apt install -y meshlab
 RUN cd /root ; mkdir libIGEVStereo
 RUN cd /root/libIGEVStereo
 WORKDIR /root/libIGEVStereo
-RUN mkdir -p /root/libIGEVStereo/libigev_stereo/utils
+RUN mkdir -p /root/libIGEVStereo/libigev_stereo/
 RUN mkdir /root/libIGEVStereo/scripts/
 RUN mkdir -p /root/libIGEVStereo/test/test-imgs/
 COPY libigev_stereo/*.py /root/libIGEVStereo/libigev_stereo/
@@ -27,6 +27,8 @@ COPY test/test-imgs/ /root/libIGEVStereo/test/test-imgs/
 COPY test/*.py /root/libIGEVStereo/test/
 RUN python3 -m pip install gdown
 RUN mkdir -p /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/; cd /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
+RUN cd /usr/local/lib/python3.8/dist-packages/libigev_stereo; mkdir -p ./pretrained_models/sceneflow/
+RUN ln -s /root/libIGEVStereo/libigev_stereo/pretrained_models/sceneflow/sceneflow.pth /usr/local/lib/python3.8/dist-packages/libigev_stereo/pretrained_models/sceneflow/
 COPY pyproject.toml ./
 COPY sample.sh ./
 
