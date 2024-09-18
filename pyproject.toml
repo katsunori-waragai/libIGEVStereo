@@ -18,7 +18,6 @@ dependencies = [
     "opencv-python==3.4.18.65",
     "scipy",
     "timm==0.5.4",
-    "Ninja",
 ]
 
 [project.optional-dependencies]
