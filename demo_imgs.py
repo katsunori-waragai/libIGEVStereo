@@ -2,9 +2,6 @@
 sample script for IGEV Stereo
 """
 
-from libigev_stereo.lib_disparity import DisparityCalculator
-
-
 import argparse
 import glob
 from pathlib import Path
@@ -14,9 +11,8 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/models/sceneflow.pth"
-assert DEFAULT_MODEL.is_file()
+from libigev_stereo.lib_disparity import DisparityCalculator
+
 
 def demo(args):
     disparity_calculator = DisparityCalculator(args=args)
@@ -45,6 +41,11 @@ def demo(args):
 
 
 if __name__ == "__main__":
+    REPO_ROOT = Path(__file__).resolve().parent
+    DEFAULT_MODEL = REPO_ROOT / "libigev_stereo/models/sceneflow.pth"
+    print(f"{DEFAULT_MODEL=}")
+
+    assert DEFAULT_MODEL.is_file()
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--restore_ckpt",
