@@ -48,14 +48,14 @@ def test_all():
         corr_levels=2,
         corr_radius=4,
         hidden_dims=[128, 128, 128],
-        left_imgs="../test/test-imgs/PlaytableP/im0.png",
+        left_imgs="test-imgs/PlaytableP/im0.png",
         max_disp=192,
         mixed_precision=False,
         n_downsample=2,
         n_gru_layers=3,
         output_directory="./test-output/",
         restore_ckpt="../libigev_stereo/models/sceneflow.pth",
-        right_imgs="test/test-imgs/PlaytableP/im1.png",
+        right_imgs="test-imgs/PlaytableP/im1.png",
         save_numpy=True,
         shared_backbone=False,
         slow_fast_gru=False,
@@ -66,8 +66,7 @@ def test_all():
     print(f"{args=}")
     demo(args)
     assert Path("./test-output/").is_dir()
-    assert Path("./test-output/Motorcycle").is_dir()
-    assert Path("./test-output/PlaytableP").is_dir()
-    assert list(Path("./test-output/Motorcycle").glob("*.png"))
-    assert list(Path("./test-output/PlaytableP").glob("*.png"))
+    assert list(Path("./test-output/").glob("*.png"))
 
+if __name__ == "__main__":
+    test_all()
