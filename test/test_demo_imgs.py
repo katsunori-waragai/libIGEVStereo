@@ -40,15 +40,28 @@ def demo(args):
             print(f"saved {filename}")
 
 
-if __name__ == "__main__":
+def test_all():
     from argparse import Namespace
-    args = Namespace(corr_implementation='reg', corr_levels=2, corr_radius=4, hidden_dims=[128, 128, 128],
-                     left_imgs='../test/test-imgs/PlaytableP/im0.png', max_disp=192, mixed_precision=False, n_downsample=2,
-                     n_gru_layers=3, output_directory='./demo-output/',
-                     restore_ckpt='../libigev_stereo/models/sceneflow.pth',
-                     right_imgs='test/test-imgs/PlaytableP/im1.png', save_numpy=True, shared_backbone=False,
-                     slow_fast_gru=False, valid_iters=32)
+
+    args = Namespace(
+        corr_implementation="reg",
+        corr_levels=2,
+        corr_radius=4,
+        hidden_dims=[128, 128, 128],
+        left_imgs="../test/test-imgs/PlaytableP/im0.png",
+        max_disp=192,
+        mixed_precision=False,
+        n_downsample=2,
+        n_gru_layers=3,
+        output_directory="./demo-output/",
+        restore_ckpt="../libigev_stereo/models/sceneflow.pth",
+        right_imgs="test/test-imgs/PlaytableP/im1.png",
+        save_numpy=True,
+        shared_backbone=False,
+        slow_fast_gru=False,
+        valid_iters=32,
+    )
 
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
     print(f"{args=}")
-#    demo(args)
+    demo(args)
