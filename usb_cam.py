@@ -41,6 +41,11 @@ def default_args():
     return args
 
 
+def resize_image(frame: np.ndarray) -> np.ndarray:
+    H, W = frame.shape[:2]
+    return cv2.resize(frame, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
@@ -58,9 +63,7 @@ if __name__ == "__main__":
     with torch.no_grad():
         while True:
             _, frame = cap.read()
-            H, W = frame.shape[:2]
-            H4, W4 = H // 4, W // 4
-            frame = cv2.resize(frame, (W4, H4), interpolation=cv2.INTER_AREA)
+            frame = resize_image(frame)
             H, W = frame.shape[:2]
             half_W = W // 2
             left = frame[:, :half_W, :]
