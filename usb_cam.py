@@ -42,17 +42,19 @@ def default_args():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
+    parser.add_argument("video_num",  help="number in /dev/video")
     real_args = parser.parse_args()
 
     calc_disparity = real_args.calc_disparity
+    video_num = int(real_args.video_num)
 
     if calc_disparity:
         args = default_args()
         disparity_calculator = stereoigev.DisparityCalculator(args=args)
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(video_num)
     with torch.no_grad():
         while True:
             _, frame = cap.read()
