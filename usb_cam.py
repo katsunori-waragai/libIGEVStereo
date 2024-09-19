@@ -51,23 +51,24 @@ if __name__ == "__main__":
         disparity_calculator = stereoigev.DisparityCalculator(args=args)
 
     cap = cv2.VideoCapture(0)
-    while True:
-        _, frame = cap.read()
-        H, W = frame.shape[:2]
-        H4, W4 = H // 4, W // 4
-        frame = cv2.resize(frame, (W4, H4), interpolation=cv2.INTER_AREA)
-        H, W = frame.shape[:2]
-        half_W = W // 2
-        left = frame[:, :half_W, :]
-        right = frame[:, half_W:, :]
+    with torch.no_grad():
+        while True:
+            _, frame = cap.read()
+            H, W = frame.shape[:2]
+            H4, W4 = H // 4, W // 4
+            frame = cv2.resize(frame, (W4, H4), interpolation=cv2.INTER_AREA)
+            H, W = frame.shape[:2]
+            half_W = W // 2
+            left = frame[:, :half_W, :]
+            right = frame[:, half_W:, :]
 
-        cv2.imshow("left", left)
+            cv2.imshow("left", left)
 
-        if calc_disparity:
-            disparity = disparity_calculator.calc_by_bgr(left.copy(), right.copy())
-            disp = np.round(disparity * 256).astype(np.uint16)
-            colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
-            cv2.imshow("IGEV", colored)
-        key = cv2.waitKey(100)
-        if key == ord("q"):
-            exit()
+            if calc_disparity:
+                disparity = disparity_calculator.calc_by_bgr(left.copy(), right.copy())
+                disp = np.round(disparity * 256).astype(np.uint16)
+                colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
+                cv2.imshow("IGEV", colored)
+            key = cv2.waitKey(100)
+            if key == ord("q"):
+                exit()
