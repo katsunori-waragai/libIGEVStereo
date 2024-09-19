@@ -5,49 +5,9 @@ original:
 """
 
 import argparse
-import glob
 from pathlib import Path
 
-import cv2
-import numpy as np
-import torch
-from tqdm import tqdm
-
-from stereoigev.lib_disparity import DisparityCalculator
-
-
-def demo(args: argparse.Namespace):
-    """
-    save disparity files using left_imgs, right_imgs
-
-    args: in Namespace format
-        see details in command line help(-h).
-    """
-
-    disparity_calculator = DisparityCalculator(args=args)
-    output_directory = Path(args.output_directory)
-    output_directory.mkdir(exist_ok=True)
-
-    with torch.no_grad():
-        left_images = sorted(glob.glob(args.left_imgs, recursive=True))
-        right_images = sorted(glob.glob(args.right_imgs, recursive=True))
-        print(f"Found {len(left_images)} images. Saving files to {output_directory}/")
-
-        for imfile1, imfile2 in tqdm(list(zip(left_images, right_images))):
-            disparity = disparity_calculator.calc_by_name(imfile1, imfile2)
-            file_stem = Path(imfile1).stem
-            filename = output_directory / f"{file_stem}.png"
-
-            if args.save_numpy:
-                np.save(output_directory / f"{file_stem}.npy", disparity)
-            disp = np.round(disparity * 256).astype(np.uint16)
-            cv2.imwrite(
-                str(filename),
-                cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET),
-                [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
-            )
-            print(f"saved {filename}")
-
+from stereoigev.lib_disparity import demo
 
 if __name__ == "__main__":
     REPO_ROOT = Path(__file__).resolve().parent
