@@ -9,7 +9,7 @@ import glob
 from pathlib import Path
 
 import cv2
-import nump as np
+import numpy as np
 import torch
 import tqdm
 
