@@ -26,6 +26,10 @@ python3 -m pip install .
 ## download model file
 Pretrained models can be downloaded from [google drive](https://drive.google.com/drive/folders/1SsMHRyN7808jDViMN1sKz1Nx-71JxUuz?usp=share_link)
 
+or
+```commandline
+make download
+```
 
 ## sample execution
 ```commandline
