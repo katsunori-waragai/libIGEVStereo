@@ -48,6 +48,9 @@ if __name__ == "__main__":
     while True:
         _, frame = cap.read()
         H, W = frame.shape[:2]
+        H4, W4 = H // 4, W // 4
+        frame = cv2.resize(frame, (W4, H4), interpolation=cv2.INTER_AREA)
+        H, W = frame.shape[:2]
         half_W = W // 2
         left = frame[:, :half_W, :]
         right = frame[:, half_W:, :]
