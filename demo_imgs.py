@@ -13,8 +13,7 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from stereoigev import DisparityCalculator, as_torch_img
-
+import stereoigev
 
 def demo(args: argparse.Namespace):
     """
@@ -24,7 +23,7 @@ def demo(args: argparse.Namespace):
         see details in command line help(-h).
     """
 
-    disparity_calculator = DisparityCalculator(args=args)
+    disparity_calculator = stereoigev.DisparityCalculator(args=args)
     output_directory = Path(args.output_directory)
     output_directory.mkdir(exist_ok=True)
 
@@ -37,8 +36,8 @@ def demo(args: argparse.Namespace):
             bgr1 = cv2.imread(str(imfile1))
             bgr2 = cv2.imread(str(imfile2))
 
-            torch_image1 = as_torch_img(bgr1, is_BGR_order=True)
-            torch_image2 = as_torch_img(bgr2, is_BGR_order=True)
+            torch_image1 = stereoigev.as_torch_img(bgr1, is_BGR_order=True)
+            torch_image2 = stereoigev.as_torch_img(bgr2, is_BGR_order=True)
             disparity = disparity_calculator.calc_by_torch_image(torch_image1, torch_image2)
             file_stem = Path(imfile1).stem
             filename = output_directory / f"{file_stem}.png"
