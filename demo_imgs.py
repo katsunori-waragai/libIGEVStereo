@@ -11,9 +11,9 @@ from pathlib import Path
 import cv2
 import numpy as np
 import torch
-import tqdm
+from tqdm import tqdm
 
-from stereoigev.lib_disparity import DisparityCalculator, as_torch_img
+from stereoigev import DisparityCalculator, as_torch_img
 def demo(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs
