@@ -16,7 +16,14 @@ from tqdm import tqdm
 from stereoigev.lib_disparity import DisparityCalculator
 
 
-def demo(args):
+def demo(args: argparse.Namespace):
+    """
+    save disparity files using left_imgs, right_imgs
+
+    args: in Namespace format
+        see details in command line help(-h).
+    """
+
     disparity_calculator = DisparityCalculator(args=args)
     output_directory = Path(args.output_directory)
     output_directory.mkdir(exist_ok=True)
