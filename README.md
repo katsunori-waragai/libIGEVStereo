@@ -44,7 +44,8 @@ python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l test/te
 - You can see example in demo_imgs.py
 ### Optional: ZED2i 
 ```commandline
-$ usage: usb_cam.py [-h] [--calc_disparity] video_num
+$ python3 usb_cam.py -h
+usage: usb_cam.py [-h] [--calc_disparity] video_num
 
 disparity tool for ZED2i camera as usb camera
 
