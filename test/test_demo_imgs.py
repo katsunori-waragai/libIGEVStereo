@@ -7,6 +7,7 @@ from pathlib import Path
 
 from stereoigev.lib_disparity import demo
 
+
 def test_all():
     from argparse import Namespace
 
@@ -34,7 +35,3 @@ def test_all():
     demo(args)
     assert Path("./test-output/").is_dir()
     assert list(Path("./test-output/").glob("*.png"))
-
-
-if __name__ == "__main__":
-    test_all()
