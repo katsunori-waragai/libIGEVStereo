@@ -37,10 +37,14 @@ make download
 python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l test/test-imgs/PlaytableP/im0.png -r test/test-imgs/PlaytableP/im1.png
 ```
  
+## how to use the module
+- All you have to know is
+  - stereoigev.DisparityCalculator
+  - stereoigev.as_torch_img
+- You can see example in demo_imgs.py
 
-## npy file viewer
-- pip install disparity-viewer をすること
-- view_npy コマンドを自作している。
-それを使うことで、npyファイルを管理すれば、それで十分の状況を作る。
-
-
+## npy file viewer and helper script for zed camera(StereoLabs)
+- https://github.com/katsunori-waragai/disparity-view
+- pip install disparity-viewer
+- view_npy enable you to npy files as pseudo-colored images.
+- zed_capture will make it easy access to zed camara.

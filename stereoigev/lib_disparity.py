@@ -24,6 +24,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 def as_torch_img(numpy_img: np.ndarray, is_BGR_order=True):
+    """
+    convert numpy_img to torch_image
+    """
     if numpy_img.shape[2] == 4:
         numpy_img = numpy_img[:, :, :3]
     if is_BGR_order:
@@ -47,7 +50,6 @@ class DisparityCalculator:
 
     typical usage:
     disparity_calculator = DisparityCalculator(args=args)
-    disparity = disparity_calculator.calc_by_name(imfile1, imfile2)
 
     calc_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray
     """
