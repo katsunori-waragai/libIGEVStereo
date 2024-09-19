@@ -15,6 +15,7 @@ from tqdm import tqdm
 
 import stereoigev
 
+
 def demo(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs
