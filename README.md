@@ -4,6 +4,9 @@ module to use IGEVStereo
 ## what is IGEV Stereo
 ![](doc/demo-imgs.png)
 ![](doc/IGEV-Stereo.png)
+#### original code 
+https://github.com/gangweiX/IGEV
+
 # Under Development
 
 ## checked environment
@@ -36,7 +39,4 @@ python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l test/te
 - view_npy コマンドを自作している。
 それを使うことで、npyファイルを管理すれば、それで十分の状況を作る。
 
-## Under Development
 
-## original code 
-https://github.com/gangweiX/IGEV
