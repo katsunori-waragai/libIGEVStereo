@@ -10,6 +10,10 @@ https://github.com/gangweiX/IGEV
 arXiv
 [Iterative Geometry Encoding Volume for Stereo Matching](https://arxiv.org/abs/2303.06615)
 
+###### IGEV++
+newer version for IGEV
+https://github.com/gangweiX/IGEV-plusplus
+
 ## checked environment
 - NVIDIA Jetson AGX orin
 - Ubuntu 20
@@ -42,7 +46,9 @@ python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l "test/t
 - All you have to know is
   - stereoigev.DisparityCalculator
   - stereoigev.as_torch_img
-- You can see example in demo_imgs.py
+- You can see example in demo_imgs.py and usb_cam.py.
+- note:
+  - `with torch.no_grad():` is important to execute this torch based library.
 ### Optional: ZED2i 
 ```commandline
 $ python3 usb_cam.py -h
