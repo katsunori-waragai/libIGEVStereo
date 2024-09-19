@@ -28,7 +28,7 @@ def demo(args):
 
         for imfile1, imfile2 in tqdm(list(zip(left_images, right_images))):
             disparity = disparity_calculator.calc_by_name(imfile1, imfile2)
-            file_stem = imfile1.split("/")[-2]
+            file_stem = Path(imfile1).stem
             filename = output_directory / f"{file_stem}.png"
 
             if args.save_numpy:
