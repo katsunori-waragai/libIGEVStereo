@@ -14,6 +14,8 @@ import torch
 from tqdm import tqdm
 
 from stereoigev import DisparityCalculator, as_torch_img
+
+
 def demo(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs
@@ -50,6 +52,7 @@ def demo(args: argparse.Namespace):
                 [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
             )
             print(f"saved {filename}")
+
 
 if __name__ == "__main__":
     REPO_ROOT = Path(__file__).resolve().parent
