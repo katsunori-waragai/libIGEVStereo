@@ -42,7 +42,16 @@ python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l test/te
   - stereoigev.DisparityCalculator
   - stereoigev.as_torch_img
 - You can see example in demo_imgs.py
+### Optional: ZED2i 
+```commandline
+$ usage: usb_cam.py [-h] [--calc_disparity]
 
+optional arguments:
+  -h, --help        show this help message and exit
+  --calc_disparity  calc disparity
+
+$ python3 usb_cam.py --calc_disparity 
+```
 ## npy file viewer and helper script for zed camera(StereoLabs)
 - https://github.com/katsunori-waragai/disparity-view
 - pip install disparity-viewer
