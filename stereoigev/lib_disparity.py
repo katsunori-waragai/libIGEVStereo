@@ -1,3 +1,7 @@
+"""
+Wrapper library introduced in forked version.
+
+"""
 import argparse
 import os
 from dataclasses import dataclass, field
@@ -25,7 +29,7 @@ def as_torch_img(numpy_img: np.ndarray, is_BGR_order=True):
     return img[None].to(DEVICE)
 
 
-def load_image(imfile):
+def load_image(imfile: str):
     img = np.array(Image.open(imfile)).astype(np.uint8)
     return as_torch_img(img, is_BGR_order=False)
 
@@ -37,6 +41,10 @@ class DisparityCalculator:
 
     The original code is in
         https://github.com/gangweiX/IGEV
+
+    typical usage:
+    disparity_calculator = DisparityCalculator(args=args)
+    disparity = disparity_calculator.calc_by_name(imfile1, imfile2)
 
     calc_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray
     """

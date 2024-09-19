@@ -1,5 +1,7 @@
 """
 sample script for IGEV Stereo
+original:
+    https://github.com/gangweiX/IGEV
 """
 
 import argparse
@@ -57,10 +59,6 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--left_imgs", help="path to all first (left) frames", default="./demo-imgs/*/im0.png")
     parser.add_argument("-r", "--right_imgs", help="path to all second (right) frames", default="./demo-imgs/*/im1.png")
 
-    # parser.add_argument('-l', '--left_imgs', help="path to all first (left) frames", default="/data/Middlebury/trainingH/*/im0.png")
-    # parser.add_argument('-r', '--right_imgs', help="path to all second (right) frames", default="/data/Middlebury/trainingH/*/im1.png")
-    # parser.add_argument('-l', '--left_imgs', help="path to all first (left) frames", default="/data/ETH3D/two_view_training/*/im0.png")
-    # parser.add_argument('-r', '--right_imgs', help="path to all second (right) frames", default="/data/ETH3D/two_view_training/*/im1.png")
     parser.add_argument("--output_directory", help="directory to save output", default="./demo-output/")
     parser.add_argument("--mixed_precision", action="store_true", help="use mixed precision")
     parser.add_argument("--valid_iters", type=int, default=32, help="number of flow-field updates during forward pass")
