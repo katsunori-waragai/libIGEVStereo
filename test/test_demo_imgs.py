@@ -1,5 +1,5 @@
 """
-sample script for IGEV Stereo
+test script for IGEV Stereo
 """
 
 import argparse
