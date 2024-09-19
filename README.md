@@ -7,7 +7,8 @@ module to use IGEVStereo
 #### original code 
 https://github.com/gangweiX/IGEV
 
-# Under Development
+arXiv
+[Iterative Geometry Encoding Volume for Stereo Matching](https://arxiv.org/abs/2303.06615)
 
 ## checked environment
 - NVIDIA Jetson AGX orin
@@ -34,7 +35,7 @@ make download
 ## sample execution
 ```commandline
 #!/bin/sh
-python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l test/test-imgs/PlaytableP/im0.png -r test/test-imgs/PlaytableP/im1.png
+python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l "test/test-imgs/left/left*.png" -r "test/test-imgs/right/right*.png"
 ```
  
 ## how to use the module
