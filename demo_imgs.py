@@ -86,5 +86,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
-    print(f"{args=}")
     demo(args)
