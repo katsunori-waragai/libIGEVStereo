@@ -64,3 +64,8 @@ $ python3 usb_cam.py --calc_disparity 0
 - pip install disparity-viewer
 - view_npy enable you to npy files as pseudo-colored images.
 - zed_capture will make it easy access to zed camara.
+
+## Evaluation & Training
+- see Evaluation or Training in the original github
+https://github.com/gangweiX/IGEV
+- This repository does not provide such tools.
