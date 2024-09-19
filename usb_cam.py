@@ -1,10 +1,19 @@
+"""
+Script for capture as usb camera and estimate disparity.
+
+Fatal Error:
+    This script cause Jetson freeze.
+    apt install for some library may need.
+    ex gstreamer.
+"""
 import cv2
 import numpy as np
+import argparse
 
 import stereoigev
 
 def default_args():
-    args = Namespace(
+    args = argparse.Namespace(
         corr_implementation="reg",
         corr_levels=2,
         corr_radius=4,
@@ -25,10 +34,15 @@ def default_args():
     return args
 
 if __name__ == "__main__":
-    from argparse import Namespace
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
+    real_args = parser.parse_args()
 
-    args = default_args()
-    disparity_calculator = stereoigev.DisparityCalculator(args=args)
+    calc_disparity = real_args.calc_disparity
+
+    if calc_disparity:
+        args = default_args()
+        disparity_calculator = stereoigev.DisparityCalculator(args=args)
 
     cap = cv2.VideoCapture(0)
     while True:
@@ -39,10 +53,12 @@ if __name__ == "__main__":
         right = frame[:, half_W:, :]
 
         cv2.imshow("left", left)
-        disparity = disparity_calculator.calc_by_bgr(left.copy(), right.copy())
-        disp = np.round(disparity * 256).astype(np.uint16)
-        colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
-        cv2.imshow("IGEV", colored)
+
+        if calc_disparity:
+            disparity = disparity_calculator.calc_by_bgr(left.copy(), right.copy())
+            disp = np.round(disparity * 256).astype(np.uint16)
+            colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
+            cv2.imshow("IGEV", colored)
         key = cv2.waitKey(100)
         if key == ord("q"):
             exit()
