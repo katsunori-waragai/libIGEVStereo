@@ -10,9 +10,11 @@ Even if you use image capture only and no disparity calculation,
 GPU usage in jtop command increases.
 """
 
+import argparse
+
 import cv2
 import numpy as np
-import argparse
+import torch
 
 import stereoigev
 
@@ -41,7 +43,7 @@ def default_args():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--calc_disparity", action="store_true", help="calc disparity (buggy: may freeze)")
+    parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
     real_args = parser.parse_args()
 
     calc_disparity = real_args.calc_disparity
