@@ -44,7 +44,7 @@ def default_args():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
-    parser.add_argument("video_num",  help="number in /dev/video")
+    parser.add_argument("video_num", help="number in /dev/video")
     real_args = parser.parse_args()
 
     calc_disparity = real_args.calc_disparity
