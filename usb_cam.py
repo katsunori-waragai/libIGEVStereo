@@ -1,13 +1,5 @@
 """
 Script for capture as usb camera and estimate disparity.
-
-Fatal Error:
-    This script cause Jetson freeze.
-    apt install for some library may need.
-    ex gstreamer.
-
-Even if you use image capture only and no disparity calculation,
-GPU usage in jtop command increases.
 """
 
 import argparse
