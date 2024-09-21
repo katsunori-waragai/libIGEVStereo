@@ -10,6 +10,25 @@ https://github.com/gangweiX/IGEV
 arXiv
 [Iterative Geometry Encoding Volume for Stereo Matching](https://arxiv.org/abs/2303.06615)
 
+```
+
+@inproceedings{xu2023iterative,
+  title={Iterative Geometry Encoding Volume for Stereo Matching},
+  author={Xu, Gangwei and Wang, Xianqi and Ding, Xiaohuan and Yang, Xin},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={21919--21928},
+  year={2023}
+}
+
+@article{xu2024igev++,
+  title={IGEV++: Iterative Multi-range Geometry Encoding Volumes for Stereo Matching},
+  author={Xu, Gangwei and Wang, Xianqi and Zhang, Zhaoxing and Cheng, Junda and Liao, Chunyuan and Yang, Xin},
+  journal={arXiv preprint arXiv:2409.00638},
+  year={2024}
+}
+
+```
+
 ###### IGEV++
 newer version for IGEV
 https://github.com/gangweiX/IGEV-plusplus
