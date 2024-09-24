@@ -62,4 +62,4 @@ $ python3 usb_cam.py --calc_disparity 0
 - https://github.com/katsunori-waragai/disparity-view
 - pip install disparity-viewer
 - view_npy enable you to npy files as pseudo-colored images.
-- zed_capture will make it easy access to zed camara.
+- zed_capture will make it easy access to zed camera.
