@@ -94,3 +94,8 @@ $ python3 usb_cam.py --calc_disparity 0
 - see Evaluation or Training in the original github
 https://github.com/gangweiX/IGEV
 - This repository does not provide such tools.
+
+## OpenCV version
+- OpenCV is used only to IO including VideoCapture(), imshow(), and color mapping.
+- You can change opencv-python version.
+- Be careful some version has circular import error.
