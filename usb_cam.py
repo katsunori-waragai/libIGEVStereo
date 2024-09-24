@@ -52,6 +52,7 @@ if __name__ == "__main__":
         disparity_calculator = stereoigev.DisparityCalculator(args=args)
 
     cap = cv2.VideoCapture(video_num)
+    cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
     with torch.no_grad():
         while True:
             _, frame = cap.read()
