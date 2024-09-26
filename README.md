@@ -58,14 +58,14 @@ make download
 ## sample execution
 ```commandline
 #!/bin/sh
-python3 demo_imgs.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l "test/test-imgs/left/left*.png" -r "test/test-imgs/right/right*.png"
+python3 igev_for_presaved.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l "test/test-imgs/left/left*.png" -r "test/test-imgs/right/right*.png"
 ```
  
 ## how to use the module
 - All you have to know is
   - stereoigev.DisparityCalculator
   - stereoigev.as_torch_img
-- You can see example in demo_imgs.py and usb_cam.py.
+- You can see example in igev_for_presaved.py and usb_cam.py.
 - note:
   - `with torch.no_grad():` is important to execute this torch based library.
 ### Optional: ZED2i 
