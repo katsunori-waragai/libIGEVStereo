@@ -86,12 +86,15 @@ class DisparityCalculator:
         return self.calc_by_torch_image(torch_image1, torch_image2)
 
 
-def demo(args: argparse.Namespace):
+def calc_for_presaved(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs
 
     args: in Namespace format
         see details in command line help(-h).
+    args.left_ims:
+    args.right_imgs:
+    args.output_directory:
     """
 
     disparity_calculator = DisparityCalculator(args=args)
