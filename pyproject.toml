@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "stereoigev"
 description = "library version for IGEV"
 readme = "README.md"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
     {name = "katsunori-waragai", email="huyuhiko1128@gmail.com"},
 ]
