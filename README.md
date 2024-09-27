@@ -38,6 +38,9 @@ https://github.com/gangweiX/IGEV-plusplus
 - Ubuntu 20
 - python3.8
 - docker
+#### Note:
+ZED2i camera with ZED SDK is optional.
+You don't need them to use stereoigev module.
 
 ## install (docker case)
 docker_build.sh
