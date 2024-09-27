@@ -2,6 +2,7 @@ FROM nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth2.0-py3
 
 RUN apt-get update
 RUN apt install sudo
+RUN apt install -y git-lfs
 # only for development
 RUN apt update && apt install -y eog nano
 RUN apt install -y meshlab
