@@ -37,17 +37,16 @@ https://github.com/gangweiX/IGEV-plusplus
 - NVIDIA Jetson AGX orin
 - Ubuntu 20
 - python3.8
+- docker
+#### Note:
+ZED2i camera with ZED SDK is optional.
+You don't need them to use stereoigev module.
 
 ## install (docker case)
 docker_build.sh
 docker_run.sh
 
-## install 
-```commandline
-python3 -m pip install .
-```
-
-## download model file
+## download model file 
 Pretrained models can be downloaded from [google drive](https://drive.google.com/drive/folders/1SsMHRyN7808jDViMN1sKz1Nx-71JxUuz?usp=share_link)
 
 or
@@ -89,6 +88,14 @@ $ python3 usb_cam.py --calc_disparity 0
 - pip install disparity-viewer
 - view_npy enable you to npy files as pseudo-colored images.
 - zed_capture will make it easy access to zed camera.
+
+## PC NVIDIA GPU case
+You can port into PC NVIDIA GPU case.
+All you have to do is change original docker image written in Dockerfile.
+
+```commandline
+FROM nvcr.io/nvidia/l4t-pytorch:r35.2.1-pth2.0-py3
+```
 
 ## Evaluation & Training
 - see Evaluation or Training in the original github
