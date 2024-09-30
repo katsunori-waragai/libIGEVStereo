@@ -62,7 +62,7 @@ if __name__ == "__main__":
             left = frame[:, :half_W, :]
             right = frame[:, half_W:, :]
 
-            cv2.imshow("left", left)
+            cv2.imshow("left and right", frame)
 
             if calc_disparity:
                 disparity = disparity_calculator.calc_by_bgr(left.copy(), right.copy())
