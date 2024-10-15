@@ -51,7 +51,7 @@ class DisparityCalculator:
     typical usage:
     disparity_calculator = DisparityCalculator(args=args)
 
-    calc_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray
+    predict_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray
     """
 
     args: argparse.Namespace = field(default=None)
@@ -66,12 +66,12 @@ class DisparityCalculator:
 
         self.model.eval()
 
-    def calc_by_name(self, leftname, rightname) -> np.ndarray:
+    def predict_by_name(self, leftname, rightname) -> np.ndarray:
         torch_image1 = load_image(leftname)
         torch_image2 = load_image(rightname)
-        return self.calc_by_torch_image(torch_image1, torch_image2)
+        return self.predict_by_torch_image(torch_image1, torch_image2)
 
-    def calc_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray:
+    def predict_by_torch_image(self, torch_image1, torch_image2) -> np.ndarray:
         padder = InputPadder(torch_image1.shape, divis_by=32)
         torch_image1, torch_image2 = padder.pad(torch_image1, torch_image2)
         disp = self.model(torch_image1, torch_image2, iters=self.args.valid_iters, test_mode=True)
@@ -80,13 +80,13 @@ class DisparityCalculator:
         disparity = disp.squeeze()
         return disparity
 
-    def calc_by_bgr(self, bgr1: np.ndarray, bgr2: np.ndarray) -> np.ndarray:
+    def predict_by_bgr(self, bgr1: np.ndarray, bgr2: np.ndarray) -> np.ndarray:
         torch_image1 = as_torch_img(bgr1, is_BGR_order=True)
         torch_image2 = as_torch_img(bgr2, is_BGR_order=True)
-        return self.calc_by_torch_image(torch_image1, torch_image2)
+        return self.predict_by_torch_image(torch_image1, torch_image2)
 
 
-def calc_for_presaved(args: argparse.Namespace):
+def predict_for_presaved(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs
 
@@ -107,7 +107,7 @@ def calc_for_presaved(args: argparse.Namespace):
         print(f"Found {len(left_images)} images. Saving files to {output_directory}/")
 
         for imfile1, imfile2 in tqdm(list(zip(left_images, right_images))):
-            disparity = disparity_calculator.calc_by_name(imfile1, imfile2)
+            disparity = disparity_calculator.predict_by_name(imfile1, imfile2)
             file_stem = Path(imfile1).stem
             filename = output_directory / f"{file_stem}.png"
 
