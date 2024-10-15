@@ -85,6 +85,13 @@ class DisparityCalculator:
         torch_image2 = as_torch_img(bgr2, is_BGR_order=True)
         return self.predict_by_torch_image(torch_image1, torch_image2)
 
+    def predict(self, left, right) -> np.ndarray:
+        if isinstance(left, str) or isinstance(left, Path):
+            return self.predict_by_name(str(left), str(right))
+        elif isinstance(left, np.ndarray):
+            return self.predict_by_bgr(left, right)
+        else:
+            return self.predict_by_torch_image(left, right)
 
 def predict_for_presaved(args: argparse.Namespace):
     """
