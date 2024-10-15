@@ -16,7 +16,7 @@ from tqdm import tqdm
 import stereoigev
 
 
-def calc_for_presaved(args: argparse.Namespace):
+def predict_for_presaved(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs
 
@@ -98,4 +98,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
-    calc_for_presaved(args)
+    predict_for_presaved(args)
