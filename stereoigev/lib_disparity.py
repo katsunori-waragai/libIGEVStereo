@@ -93,6 +93,7 @@ class DisparityCalculator:
         else:
             return self.predict_by_torch_image(left, right)
 
+
 def predict_for_presaved(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs

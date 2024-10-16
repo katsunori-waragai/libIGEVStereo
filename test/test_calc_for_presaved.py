@@ -6,6 +6,7 @@ from pathlib import Path
 
 import stereoigev
 
+
 def test_all():
     from argparse import Namespace
 
