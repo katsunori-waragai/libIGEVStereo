@@ -16,7 +16,7 @@ from tqdm import tqdm
 import stereoigev
 
 
-def calc_for_presaved(args: argparse.Namespace):
+def predict_for_presaved(args: argparse.Namespace):
     """
     save disparity files using left_imgs, right_imgs
 
@@ -39,7 +39,7 @@ def calc_for_presaved(args: argparse.Namespace):
 
             torch_image1 = stereoigev.as_torch_img(bgr1, is_BGR_order=True)
             torch_image2 = stereoigev.as_torch_img(bgr2, is_BGR_order=True)
-            disparity = disparity_calculator.calc_by_torch_image(torch_image1, torch_image2)
+            disparity = disparity_calculator.predict(torch_image1, torch_image2)
             file_stem = Path(imfile1).stem
             filename = output_directory / f"{file_stem}.png"
 
@@ -98,4 +98,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
-    calc_for_presaved(args)
+    predict_for_presaved(args)
