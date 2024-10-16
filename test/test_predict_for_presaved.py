@@ -4,8 +4,7 @@ test script for IGEV Stereo
 
 from pathlib import Path
 
-
-from stereoigev.lib_disparity import predict_for_presaved
+import stereoigev
 
 
 def test_all():
@@ -32,6 +31,6 @@ def test_all():
 
     Path(args.output_directory).mkdir(exist_ok=True, parents=True)
     print(f"{args=}")
-    predict_for_presaved(args)
+    stereoigev.predict_for_presaved(args)
     assert Path("./test-output/").is_dir()
     assert list(Path("./test-output/").glob("*.png"))
