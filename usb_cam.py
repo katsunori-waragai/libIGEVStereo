@@ -73,10 +73,7 @@ if __name__ == "__main__":
             if calc_disparity:
                 disparity = disparity_calculator.predict(left.copy(), right.copy())
                 disp = np.round(disparity * 256).astype(np.uint16)
-                if normal:
-                    colored = converter.convert(disp)
-                else:
-                    colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
+                colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
                 cv2.imshow("IGEV", colored)
                 if normal:
                     normal_bgr = converter.convert(disp)
