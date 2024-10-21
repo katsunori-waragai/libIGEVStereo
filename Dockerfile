@@ -22,9 +22,7 @@ RUN python3 -m pip install gdown
 RUN mkdir -p /root/libIGEVStereo/stereoigev/models/ ; cd /root/libIGEVStereo/stereoigev/models/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
 COPY pyproject.toml Makefile ./
 COPY sample.sh ./
-
-RUN cd /root ; git clone https://github.com/katsunori-waragai/disparity-view.git
-RUN cd /root/disparity-view; python3 -m pip install .[dev]
 WORKDIR /root/libIGEVStereo
 
 RUN python3 -m pip install .[dev]
+ENV LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so:$LD_PRELOAD

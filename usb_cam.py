@@ -39,17 +39,23 @@ def resize_image(frame: np.ndarray) -> np.ndarray:
 
 
 if __name__ == "__main__":
+    import disparity_view
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
+    parser.add_argument("--normal", action="store_true", help="normal map")
     parser.add_argument("video_num", help="number in /dev/video")
     real_args = parser.parse_args()
 
     calc_disparity = real_args.calc_disparity
+    normal =  real_args.normal
     video_num = int(real_args.video_num)
 
     if calc_disparity:
         args = default_args()
         disparity_calculator = stereoigev.DisparityCalculator(args=args)
+
+    if normal:
+        converter = disparity_view.DepthToNormalMap()
 
     cap = cv2.VideoCapture(video_num)
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
@@ -67,7 +73,10 @@ if __name__ == "__main__":
             if calc_disparity:
                 disparity = disparity_calculator.predict(left.copy(), right.copy())
                 disp = np.round(disparity * 256).astype(np.uint16)
-                colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
+                if normal:
+                    colored = converter.convert(disp)
+                else:
+                    colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
                 cv2.imshow("IGEV", colored)
             key = cv2.waitKey(100)
             if key == ord("q"):
