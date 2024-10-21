@@ -25,3 +25,4 @@ COPY sample.sh ./
 WORKDIR /root/libIGEVStereo
 
 RUN python3 -m pip install .[dev]
+ENV LD_PRELOAD=/lib/aarch64-linux-gnu/libGLdispatch.so:$LD_PRELOAD
