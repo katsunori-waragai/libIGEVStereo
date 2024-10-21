@@ -78,6 +78,9 @@ if __name__ == "__main__":
                 else:
                     colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
                 cv2.imshow("IGEV", colored)
+                if normal:
+                    normal_bgr = converter.convert(disp)
+                    cv2.imshow("normal", normal_bgr)
             key = cv2.waitKey(100)
             if key == ord("q"):
                 exit()
