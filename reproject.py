@@ -5,6 +5,7 @@ import torch
 
 import stereoigev
 
+
 def generate_point_cloud(disparity_map, left_image, camera_matrix, baseline):
     """
     視差マップと左カメラのRGB画像から点群データを生成する関数
@@ -37,6 +38,7 @@ def generate_point_cloud(disparity_map, left_image, camera_matrix, baseline):
 
     return point_cloud, color
 
+
 def reproject_point_cloud(point_cloud, color, right_camera_intrinsics, baseline):
     """
     点群データを右カメラ視点に再投影する関数
@@ -51,89 +53,106 @@ def reproject_point_cloud(point_cloud, color, right_camera_intrinsics, baseline)
         reprojected_image: 再投影画像
     """
 
-    # ... (これまでのコードと同様)
+    # 点群データをOpen3DのPointCloudに変換
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(point_cloud)
+    pcd.colors = o3d.utility.Vector3dVector(color)
 
-    # 視差から深度を計算
-    depth = baseline * right_camera_intrinsics[0, 0] / points_2d[:, 0]
+    # カメラ座標系から画像座標系に変換 (投影)
+    points_2d, _ = cv2.projectPoints(pcd.points, np.zeros(3), np.zeros(3), right_camera_intrinsics, np.zeros(5))
+    points_2d = np.int32(points_2d).reshape(-1, 2)
 
-    # 深度とカメラ座標系との関係から、3D座標を再計算
-    # (ステレオ平行化済みなので、Z座標は深度と一致)
-    reprojected_point_cloud = np.hstack([points_2d, depth.reshape(-1, 1)])
+    # 再投影画像の作成
+    img_h, img_w = right_camera_intrinsics[2][2], right_camera_intrinsics[2][2]
+    reprojected_image = np.zeros((img_h, img_w, 3), dtype=np.uint8)
+    reprojected_image = cv2.cvtColor(reprojected_image, cv2.COLOR_BGR2RGB)
 
-    # ... (残りのコードはほぼ同様)
+    # 点を画像に描画
+    for pt, c in zip(points_2d, color):
+        x, y = pt[0][0], pt[0][1]  # points_2dの形状に合わせて修正
+        if 0 <= x < img_w and 0 <= y < img_h:
+            reprojected_image[y, x] = (c * 255).astype(np.uint8)
 
-# 使用例
-# ... (これまでのコードと同様)
+    return reprojected_image
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--restore_ckpt",
-    help="restore checkpoint",
-    default=DEFAULT_MODEL,
-)
-parser.add_argument("--save_numpy", default=True, help="save output as numpy arrays")
 
-parser.add_argument("-l", "--left_imgs", help="path to all first (left) frames", default="./demo-imgs/*/im0.png")
-parser.add_argument("-r", "--right_imgs", help="path to all second (right) frames", default="./demo-imgs/*/im1.png")
+if __name__ == "__main__":
+    from pathlib import Path
+    import argparse
 
-parser.add_argument("--output_directory", help="directory to save output", default="./demo-output/")
-parser.add_argument("--mixed_precision", action="store_true", help="use mixed precision")
-parser.add_argument("--valid_iters", type=int, default=32, help="number of flow-field updates during forward pass")
+    REPO_ROOT = Path(__file__).resolve().parent
+    DEFAULT_MODEL = REPO_ROOT / "stereoigev/models/sceneflow.pth"
+    print(f"{DEFAULT_MODEL=}")
 
-# Architecture choices
-parser.add_argument(
-    "--hidden_dims", nargs="+", type=int, default=[128] * 3, help="hidden state and context dimensions"
-)
-parser.add_argument(
-    "--corr_implementation",
-    choices=["reg", "alt", "reg_cuda", "alt_cuda"],
-    default="reg",
-    help="correlation volume implementation",
-)
-parser.add_argument(
-    "--shared_backbone", action="store_true", help="use a single backbone for the context and feature encoders"
-)
-parser.add_argument("--corr_levels", type=int, default=2, help="number of levels in the correlation pyramid")
-parser.add_argument("--corr_radius", type=int, default=4, help="width of the correlation pyramid")
-parser.add_argument("--n_downsample", type=int, default=2, help="resolution of the disparity field (1/2^K)")
-parser.add_argument("--slow_fast_gru", action="store_true", help="iterate the low-res GRUs more frequently")
-parser.add_argument("--n_gru_layers", type=int, default=3, help="number of hidden GRU levels")
-parser.add_argument("--max_disp", type=int, default=192, help="max disp of geometry encoding volume")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--restore_ckpt",
+        help="restore checkpoint",
+        default=DEFAULT_MODEL,
+    )
+    parser.add_argument("--save_numpy", default=True, help="save output as numpy arrays")
 
-args = parser.parse_args()
+    parser.add_argument("-l", "--left_imgs", help="path to all first (left) frames", default="./demo-imgs/*/im0.png")
+    parser.add_argument("-r", "--right_imgs", help="path to all second (right) frames", default="./demo-imgs/*/im1.png")
 
-disparity_calculator = stereoigev.DisparityCalculator(args=args)
+    parser.add_argument("--output_directory", help="directory to save output", default="./demo-output/")
+    parser.add_argument("--mixed_precision", action="store_true", help="use mixed precision")
+    parser.add_argument("--valid_iters", type=int, default=32, help="number of flow-field updates during forward pass")
 
-with torch.no_grad():
-    imfile1 = "test/test-imgs/left/left_motorcycle.png"
-    imfile2 = "test/test-imgs/right/right_motorcycle.png"
-    bgr1 = cv2.imread(str(imfile1))
-    bgr2 = cv2.imread(str(imfile2))
-    left_image = bgr1
+    # Architecture choices
+    parser.add_argument(
+        "--hidden_dims", nargs="+", type=int, default=[128] * 3, help="hidden state and context dimensions"
+    )
+    parser.add_argument(
+        "--corr_implementation",
+        choices=["reg", "alt", "reg_cuda", "alt_cuda"],
+        default="reg",
+        help="correlation volume implementation",
+    )
+    parser.add_argument(
+        "--shared_backbone", action="store_true", help="use a single backbone for the context and feature encoders"
+    )
+    parser.add_argument("--corr_levels", type=int, default=2, help="number of levels in the correlation pyramid")
+    parser.add_argument("--corr_radius", type=int, default=4, help="width of the correlation pyramid")
+    parser.add_argument("--n_downsample", type=int, default=2, help="resolution of the disparity field (1/2^K)")
+    parser.add_argument("--slow_fast_gru", action="store_true", help="iterate the low-res GRUs more frequently")
+    parser.add_argument("--n_gru_layers", type=int, default=3, help="number of hidden GRU levels")
+    parser.add_argument("--max_disp", type=int, default=192, help="max disp of geometry encoding volume")
 
-    torch_image1 = stereoigev.as_torch_img(bgr1, is_BGR_order=True)
-    torch_image2 = stereoigev.as_torch_img(bgr2, is_BGR_order=True)
-    disparity = disparity_calculator.predict(torch_image1, torch_image2)
+    args = parser.parse_args()
 
-    # 近似値
-    cx = left_image.shape[1] / 2.0
-    cy = left_image.shape[0] / 2.0
+    disparity_calculator = stereoigev.DisparityCalculator(args=args)
 
-    # ダミー
-    fx = 1070 # [mm]
-    fy = fx
+    with torch.no_grad():
+        imfile1 = "test/test-imgs/left/left_motorcycle.png"
+        imfile2 = "test/test-imgs/right/right_motorcycle.png"
+        bgr1 = cv2.imread(str(imfile1))
+        bgr2 = cv2.imread(str(imfile2))
+        left_image = bgr1
 
-    # カメラパラメータの設定
-    camera_matrix = np.array([[fx, 0, cx],
-                              [0, fy, cy],
-                              [0, 0, 1]])
-    # 基線長の設定
-    baseline = 0.1  # カメラ間の距離
+        torch_image1 = stereoigev.as_torch_img(bgr1, is_BGR_order=True)
+        torch_image2 = stereoigev.as_torch_img(bgr2, is_BGR_order=True)
+        disparity = disparity_calculator.predict(torch_image1, torch_image2)
 
-    right_camera_intrinsics = camera_matrix
+        # 近似値
+        cx = left_image.shape[1] / 2.0
+        cy = left_image.shape[0] / 2.0
 
-    # 点群データの生成
-    point_cloud, color = generate_point_cloud(disparity, left_image, camera_matrix, baseline)
+        # ダミー
+        fx = 1070  # [mm]
+        fy = fx
 
-    # 再投影
-    reprojected_image = reproject_point_cloud(point_cloud, color, right_camera_intrinsics, baseline)
+        # カメラパラメータの設定
+        camera_matrix = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])
+        # 基線長の設定
+        baseline = 0.1  # カメラ間の距離
+
+        right_camera_intrinsics = camera_matrix
+
+        # 点群データの生成
+        point_cloud, color = generate_point_cloud(disparity, left_image, camera_matrix, baseline)
+
+        # 再投影
+        reprojected_image = reproject_point_cloud(point_cloud, color, right_camera_intrinsics, baseline)
+
+        cv2.imwrite("reprojected.png", reprojected_image)
