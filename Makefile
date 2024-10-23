@@ -22,4 +22,3 @@ whl:
 download:
 	mkdir -p ./stereoigev/models/ && cd ./stereoigev/models/ &&  \
 	gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
-
