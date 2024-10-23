@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ -f /usr/local/zed/lib/libsl_zed.so ]; then
+  echo already installed zed sdk ; exit
+fi
+
 apt-get update
 apt install sudo
 apt install -y zip
