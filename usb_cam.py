@@ -78,6 +78,15 @@ if __name__ == "__main__":
                 if normal:
                     normal_bgr = converter.convert(disp)
                     cv2.imshow("normal", normal_bgr)
+
+                if 1:
+                    from disparity_view import dummy_camera_matrix
+                    camera_matrix = dummy_camera_matrix(left.shape)
+                    baseline = 120.0
+                    tvec = np.array((-baseline, 0.0, 0.0))
+                    reprojected_image = disparity_view.reproject_from_left_and_disparity(left, disparity,
+                                                                                         camera_matrix, baseline=baseline, tvec=tvec)
+                    cv2.imshow("reprojected", reprojected_image)
             key = cv2.waitKey(100)
             if key == ord("q"):
                 exit()
