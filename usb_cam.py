@@ -50,7 +50,7 @@ if __name__ == "__main__":
     real_args = parser.parse_args()
 
     calc_disparity = real_args.calc_disparity
-    normal =  real_args.normal
+    normal = real_args.normal
     reproject = real_args.normal.reproject
     video_num = int(real_args.video_num)
 
@@ -87,8 +87,9 @@ if __name__ == "__main__":
                     camera_matrix = dummy_camera_matrix(left.shape)
                     baseline = 120.0
                     tvec = np.array((-baseline, 0.0, 0.0))
-                    reprojected_image = disparity_view.reproject_from_left_and_disparity(left, disparity,
-                                                                                         camera_matrix, baseline=baseline, tvec=tvec)
+                    reprojected_image = disparity_view.reproject_from_left_and_disparity(
+                        left, disparity, camera_matrix, baseline=baseline, tvec=tvec
+                    )
                     cv2.imshow("reprojected", reprojected_image)
             key = cv2.waitKey(100)
             if key == ord("q"):
