@@ -40,14 +40,18 @@ def resize_image(frame: np.ndarray) -> np.ndarray:
 
 if __name__ == "__main__":
     import disparity_view
+    from disparity_view.util import dummy_camera_matrix
+
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
     parser.add_argument("--normal", action="store_true", help="normal map")
+    parser.add_argument("--reproject", action="store_true", help="reproject to 2D")
     parser.add_argument("video_num", help="number in /dev/video")
     real_args = parser.parse_args()
 
     calc_disparity = real_args.calc_disparity
-    normal =  real_args.normal
+    normal = real_args.normal
+    reproject = real_args.reproject
     video_num = int(real_args.video_num)
 
     if calc_disparity:
@@ -78,6 +82,15 @@ if __name__ == "__main__":
                 if normal:
                     normal_bgr = converter.convert(disp)
                     cv2.imshow("normal", normal_bgr)
+
+                if reproject:
+                    camera_matrix = dummy_camera_matrix(left.shape)
+                    baseline = 120.0
+                    tvec = np.array((-baseline, 0.0, 0.0))
+                    reprojected_image = disparity_view.reproject_from_left_and_disparity(
+                        left, disparity, camera_matrix, baseline=baseline, tvec=tvec
+                    )
+                    cv2.imshow("reprojected", reprojected_image)
             key = cv2.waitKey(100)
             if key == ord("q"):
                 exit()
