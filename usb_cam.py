@@ -48,17 +48,17 @@ if __name__ == "__main__":
     parser.add_argument("--reproject", action="store_true", help="reproject to 2D")
     parser.add_argument("--axis", type=int, default=0, help="axis to shift(0; to right, 1: to upper, 2: to far)")
     parser.add_argument("video_num", type=int, help="number in /dev/video")
-    real_args = parser.parse_args()
+    args = parser.parse_args()
 
-    calc_disparity = real_args.calc_disparity
-    normal = real_args.normal
-    reproject = real_args.reproject
-    axis = real_args.axis
-    video_num = int(real_args.video_num)
+    calc_disparity = args.calc_disparity
+    normal = args.normal
+    reproject = args.reproject
+    axis = args.axis
+    video_num = int(args.video_num)
 
     if calc_disparity:
-        args = default_args()
-        disparity_calculator = stereoigev.DisparityCalculator(args=args)
+        igev_args = default_args()
+        disparity_calculator = stereoigev.DisparityCalculator(args=igev_args)
 
     if normal:
         converter = disparity_view.DepthToNormalMap()
