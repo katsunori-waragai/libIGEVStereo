@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     calc_disparity = real_args.calc_disparity
     normal = real_args.normal
-    reproject = real_args.normal.reproject
+    reproject = real_args.reproject
     video_num = int(real_args.video_num)
 
     if calc_disparity:
