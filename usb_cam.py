@@ -46,12 +46,14 @@ if __name__ == "__main__":
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
     parser.add_argument("--normal", action="store_true", help="normal map")
     parser.add_argument("--reproject", action="store_true", help="reproject to 2D")
-    parser.add_argument("video_num", help="number in /dev/video")
+    parser.add_argument("--axis", type=int, default=0, help="axis to shift(0; to right, 1: to upper, 2: to far)")
+    parser.add_argument("video_num", type=int, help="number in /dev/video")
     real_args = parser.parse_args()
 
     calc_disparity = real_args.calc_disparity
     normal = real_args.normal
     reproject = real_args.reproject
+    axis = real_args.axis
     video_num = int(real_args.video_num)
 
     if calc_disparity:
@@ -86,7 +88,13 @@ if __name__ == "__main__":
                 if reproject:
                     camera_matrix = dummy_camera_matrix(left.shape)
                     baseline = 120.0
-                    tvec = np.array((-baseline, 0.0, 0.0))
+                    if axis == 0:
+                        tvec = np.array((-baseline, 0.0, 0.0))
+                    elif axis == 1:
+                        tvec = np.array((0.0, baseline, 0.0))
+                    elif axis == 2:
+                        tvec = np.array((0.0, 0.0, -baseline))
+
                     reprojected_image = disparity_view.reproject_from_left_and_disparity(
                         left, disparity, camera_matrix, baseline=baseline, tvec=tvec
                     )
