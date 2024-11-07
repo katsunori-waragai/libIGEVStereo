@@ -40,12 +40,13 @@ def resize_image(frame: np.ndarray) -> np.ndarray:
 
 if __name__ == "__main__":
     import disparity_view
-    from disparity_view.util import dummy_camera_matrix
+    from disparity_view.util import create_camera_matrix
 
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
     parser.add_argument("--normal", action="store_true", help="normal map")
     parser.add_argument("--reproject", action="store_true", help="reproject to 2D")
+    parser.add_argument("json", help="json file for camera parameter")
     parser.add_argument("--axis", type=int, default=0, help="axis to shift(0; to right, 1: to upper, 2: to far)")
     parser.add_argument("video_num", type=int, help="number in /dev/video")
     args = parser.parse_args()
@@ -55,6 +56,7 @@ if __name__ == "__main__":
     reproject = args.reproject
     axis = args.axis
     video_num = int(args.video_num)
+    cam_param = disparity_view.CameraParameter.load_json(args.json)
 
     if calc_disparity:
         igev_args = default_args()
@@ -86,7 +88,7 @@ if __name__ == "__main__":
                     cv2.imshow("normal", normal_bgr)
 
                 if reproject:
-                    camera_matrix = dummy_camera_matrix(left.shape)
+                    camera_matrix = create_camera_matrix(left.shape)
                     baseline = 120.0
                     if axis == 0:
                         tvec = np.array((-baseline, 0.0, 0.0))
@@ -95,9 +97,18 @@ if __name__ == "__main__":
                     elif axis == 2:
                         tvec = np.array((0.0, 0.0, -baseline))
 
-                    reprojected_image = disparity_view.reproject_from_left_and_disparity(
-                        left, disparity, camera_matrix, baseline=baseline, tvec=tvec
-                    )
+                    stereo_camera = disparity_view.StereoCamera(baseline=cam_param.baseline)
+                    stereo_camera.set_camera_matrix(shape=disparity.shape, focal_length=cam_param.fx)
+                    stereo_camera.pcd = stereo_camera.generate_point_cloud(disparity, left.copy())
+                    scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
+                    tvec = disparity_view.gen_tvec(scaled_shift=scaled_baseline, axis=axis)
+                    extrinsics = disparity_view.as_extrinsics(tvec)
+                    projected = stereo_camera.project_to_rgbd_image(extrinsics=extrinsics)
+                    reprojected_image = np.asarray(projected.color.to_legacy())
+
+                    # reprojected_image = disparity_view.reproject_from_left_and_disparity(
+                    #     left, disparity, camera_matrix, baseline=baseline, tvec=tvec
+                    # )
                     cv2.imshow("reprojected", reprojected_image)
             key = cv2.waitKey(100)
             if key == ord("q"):
