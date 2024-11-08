@@ -11,6 +11,7 @@ import torch
 import stereoigev
 
 
+
 def default_args():
     args = argparse.Namespace(
         corr_implementation="reg",
@@ -41,6 +42,7 @@ def resize_image(frame: np.ndarray) -> np.ndarray:
 if __name__ == "__main__":
     import disparity_view
     from disparity_view.util import create_camera_matrix
+    from disparity_view.o3d_project import gen_tvec, as_extrinsics
 
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
@@ -101,8 +103,8 @@ if __name__ == "__main__":
                     stereo_camera.set_camera_matrix(shape=disparity.shape, focal_length=cam_param.fx)
                     stereo_camera.pcd = stereo_camera.generate_point_cloud(disparity, left.copy())
                     scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
-                    tvec = disparity_view.gen_tvec(scaled_shift=scaled_baseline, axis=axis)
-                    extrinsics = disparity_view.as_extrinsics(tvec)
+                    tvec = gen_tvec(scaled_shift=scaled_baseline, axis=axis)
+                    extrinsics = as_extrinsics(tvec)
                     projected = stereo_camera.project_to_rgbd_image(extrinsics=extrinsics)
                     reprojected_image = np.asarray(projected.color.to_legacy())
 
