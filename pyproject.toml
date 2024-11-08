@@ -19,7 +19,7 @@ dependencies = [
     "open3d>=0.16.0",
     "scipy",
     "timm==0.5.4",
-#    "disparity_view@git+https://github.com/katsunori-waragai/disparity-view",
+    "disparity_view",
 ]
 
 [project.optional-dependencies]
