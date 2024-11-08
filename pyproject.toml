@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "stereoigev"
 description = "library version for IGEV"
 readme = "README.md"
-version = "0.0.5"
+version = "0.0.6"
 authors = [
     {name = "katsunori-waragai", email="huyuhiko1128@gmail.com"},
 ]
@@ -19,7 +19,7 @@ dependencies = [
     "open3d>=0.16.0",
     "scipy",
     "timm==0.5.4",
-    "disparity_view",
+    "disparity_view>=0.0.17",
 ]
 
 [project.optional-dependencies]

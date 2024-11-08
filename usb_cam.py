@@ -41,7 +41,6 @@ def resize_image(frame: np.ndarray) -> np.ndarray:
 
 if __name__ == "__main__":
     import disparity_view
-    from disparity_view.util import create_camera_matrix
     from disparity_view.o3d_project import gen_tvec, as_extrinsics
 
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
@@ -90,7 +89,7 @@ if __name__ == "__main__":
                     cv2.imshow("normal", normal_bgr)
 
                 if reproject:
-                    camera_matrix = create_camera_matrix(left.shape)
+                    camera_matrix = disparity_view.create_camera_matrix(left.shape)
                     baseline = 120.0
                     if axis == 0:
                         tvec = np.array((-baseline, 0.0, 0.0))
