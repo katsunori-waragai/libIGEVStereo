@@ -21,7 +21,7 @@ COPY test/*.py test/*.sh /root/libIGEVStereo/test/
 RUN python3 -m pip install gdown
 RUN mkdir -p /root/libIGEVStereo/stereoigev/models/ ; cd /root/libIGEVStereo/stereoigev/models/ ; gdown --fuzzy https://drive.google.com/file/d/16e9NR_RfzFdYT5mPaGwpjccplCi82C2e/view?usp=drive_link
 COPY pyproject.toml Makefile ./
-COPY *.sh ./
+COPY *.sh *.json ./
 WORKDIR /root/libIGEVStereo
 
 RUN python3 -m pip install .[dev]
