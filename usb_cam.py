@@ -68,6 +68,10 @@ if __name__ == "__main__":
 
     cap = cv2.VideoCapture(video_num)
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+
+    stereo_camera = disparity_view.StereoCamera.create(cam_param)
+    scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
+
     with torch.no_grad():
         while True:
             _, frame = cap.read()
@@ -89,7 +93,7 @@ if __name__ == "__main__":
                     cv2.imshow("normal", normal_bgr)
 
                 if reproject:
-                    camera_matrix = disparity_view.create_camera_matrix(left.shape)
+                    stereo_camera.pcd = stereo_camera.generate_point_cloud(disparity, left.copy())
                     baseline = 120.0
                     if axis == 0:
                         tvec = np.array((-baseline, 0.0, 0.0))
@@ -98,10 +102,6 @@ if __name__ == "__main__":
                     elif axis == 2:
                         tvec = np.array((0.0, 0.0, -baseline))
 
-                    stereo_camera = disparity_view.StereoCamera(baseline=cam_param.baseline)
-                    stereo_camera.set_camera_matrix(shape=disparity.shape, focal_length=cam_param.fx)
-                    stereo_camera.pcd = stereo_camera.generate_point_cloud(disparity, left.copy())
-                    scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
                     tvec = gen_tvec(scaled_shift=scaled_baseline, axis=axis)
                     extrinsics = as_extrinsics(tvec)
                     projected = stereo_camera.project_to_rgbd_image(extrinsics=extrinsics)
