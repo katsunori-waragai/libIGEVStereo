@@ -33,15 +33,8 @@ def default_args():
     )
     return args
 
-
-def resize_image(frame: np.ndarray) -> np.ndarray:
-    H, W = frame.shape[:2]
-    return cv2.resize(frame, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
-
-
 if __name__ == "__main__":
     import disparity_view
-    from disparity_view.util import create_camera_matrix
     from disparity_view.o3d_project import gen_tvec, as_extrinsics
 
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
@@ -58,7 +51,6 @@ if __name__ == "__main__":
     reproject = args.reproject
     axis = args.axis
     video_num = int(args.video_num)
-    cam_param = disparity_view.CameraParameter.load_json(args.json)
 
     if calc_disparity:
         igev_args = default_args()
@@ -69,19 +61,32 @@ if __name__ == "__main__":
 
     cap = cv2.VideoCapture(video_num)
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+
+    camera_param = disparity_view.CameraParameter.load_json(args.json)
+    stereo_camera = disparity_view.StereoCamera.create_from_camera_param(camera_param)
+    expected_height, expected_width = camera_param.height, camera_param.width
+    assert stereo_camera.shape[0] == camera_param.height
+    assert stereo_camera.shape[1] == camera_param.width
+    print(f"{expected_height=}, {expected_width=}")
+    scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
+
     with torch.no_grad():
         while True:
             _, frame = cap.read()
-            frame = resize_image(frame)
+            frame = cv2.resize(frame, (2 * expected_width, expected_height))
+            assert frame.shape[0] == expected_height
+            assert frame.shape[1] == 2 * expected_width
             H, W = frame.shape[:2]
             half_W = W // 2
             left = frame[:, :half_W, :]
             right = frame[:, half_W:, :]
 
-            cv2.imshow("left and right", frame)
+            shape = left.shape[:2]
+            cv2.imshow(f"left and right {shape}", frame)
 
             if calc_disparity:
                 disparity = disparity_calculator.predict(left.copy(), right.copy())
+                assert disparity.shape[:2] == left.shape[:2]
                 disp = np.round(disparity * 256).astype(np.uint16)
                 colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
                 cv2.imshow("IGEV", colored)
@@ -90,7 +95,7 @@ if __name__ == "__main__":
                     cv2.imshow("normal", normal_bgr)
 
                 if reproject:
-                    camera_matrix = create_camera_matrix(left.shape)
+                    stereo_camera.pcd = stereo_camera.generate_point_cloud(disparity, left.copy())
                     baseline = 120.0
                     if axis == 0:
                         tvec = np.array((-baseline, 0.0, 0.0))
@@ -99,10 +104,6 @@ if __name__ == "__main__":
                     elif axis == 2:
                         tvec = np.array((0.0, 0.0, -baseline))
 
-                    stereo_camera = disparity_view.StereoCamera(baseline=cam_param.baseline)
-                    stereo_camera.set_camera_matrix(shape=disparity.shape, focal_length=cam_param.fx)
-                    stereo_camera.pcd = stereo_camera.generate_point_cloud(disparity, left.copy())
-                    scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
                     tvec = gen_tvec(scaled_shift=scaled_baseline, axis=axis)
                     extrinsics = as_extrinsics(tvec)
                     projected = stereo_camera.project_to_rgbd_image(extrinsics=extrinsics)
