@@ -19,7 +19,7 @@ dependencies = [
     "open3d>=0.16.0",
     "scipy",
     "timm==0.5.4",
-    "disparity_view>=0.0.17",
+    "disparity_view>=0.0.18",
 ]
 
 [project.optional-dependencies]
