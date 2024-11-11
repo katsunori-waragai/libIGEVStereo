@@ -68,8 +68,9 @@ if __name__ == "__main__":
     cap = cv2.VideoCapture(video_num)
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
-    stereo_camera = disparity_view.StereoCamera()
-    stereo_camera.load_camera_parameter(args.json)
+    camera_param = disparity_view.CameraParameter.load_json(args.json)
+    stereo_camera = disparity_view.StereoCamera.create_from_camera_param(camera_param)
+    # stereo_camera.load_camera_parameter(args.json)
     scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
 
     with torch.no_grad():
