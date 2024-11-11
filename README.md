@@ -69,19 +69,24 @@ python3 igev_for_presaved.py --restore_ckpt ./stereoigev/models/sceneflow.pth -l
   - `with torch.no_grad():` is important to execute this torch based library.
 ### Optional: ZED2i 
 ```commandline
-$ python3 usb_cam.py -h
-usage: usb_cam.py [-h] [--calc_disparity] video_num
+$  python3 usb_cam.py -h
+usage: usb_cam.py [-h] [--calc_disparity] [--normal] [--reproject] [--axis AXIS] json video_num
 
 disparity tool for ZED2i camera as usb camera
 
 positional arguments:
+  json              json file for camera parameter
   video_num         number in /dev/video
 
 optional arguments:
   -h, --help        show this help message and exit
   --calc_disparity  calc disparity
+  --normal          normal map
+  --reproject       reproject to 2D
+  --axis AXIS       axis to shift(0; to right, 1: to upper, 2: to far)
 
-$ python3 usb_cam.py --calc_disparity 0
+
+$ python3 usb_cam.py --calc_disparity --normal --reproject zed_1920_1080.json 0
 ```
 ## npy file viewer and helper script for zed camera(StereoLabs)
 - https://github.com/katsunori-waragai/disparity-view
