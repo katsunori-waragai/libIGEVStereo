@@ -33,12 +33,6 @@ def default_args():
     )
     return args
 
-
-def resize_image(frame: np.ndarray) -> np.ndarray:
-    H, W = frame.shape[:2]
-    return cv2.resize(frame, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
-
-
 if __name__ == "__main__":
     import disparity_view
     from disparity_view.o3d_project import gen_tvec, as_extrinsics
@@ -70,19 +64,20 @@ if __name__ == "__main__":
 
     camera_param = disparity_view.CameraParameter.load_json(args.json)
     stereo_camera = disparity_view.StereoCamera.create_from_camera_param(camera_param)
-    # stereo_camera.load_camera_parameter(args.json)
+    expected_height, expected_width = camera_param.height, camera_param.width
     scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
 
     with torch.no_grad():
         while True:
             _, frame = cap.read()
-            frame = resize_image(frame)
+            frame = cv2.resize(frame, (expected_width, expected_height))
             H, W = frame.shape[:2]
             half_W = W // 2
             left = frame[:, :half_W, :]
             right = frame[:, half_W:, :]
 
-            cv2.imshow("left and right", frame)
+            shape = left.shape[:2]
+            cv2.imshow(f"left and right {shape}", frame)
 
             if calc_disparity:
                 disparity = disparity_calculator.predict(left.copy(), right.copy())
