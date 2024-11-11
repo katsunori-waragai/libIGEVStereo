@@ -65,12 +65,15 @@ if __name__ == "__main__":
     camera_param = disparity_view.CameraParameter.load_json(args.json)
     stereo_camera = disparity_view.StereoCamera.create_from_camera_param(camera_param)
     expected_height, expected_width = camera_param.height, camera_param.width
+    print(f"{expected_height=}, {expected_width=}")
     scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
 
     with torch.no_grad():
         while True:
             _, frame = cap.read()
             frame = cv2.resize(frame, (expected_width, expected_height))
+            assert frame.shape[0] == expected_height
+            assert frame.shape[1] == expected_width
             H, W = frame.shape[:2]
             half_W = W // 2
             left = frame[:, :half_W, :]
@@ -81,6 +84,7 @@ if __name__ == "__main__":
 
             if calc_disparity:
                 disparity = disparity_calculator.predict(left.copy(), right.copy())
+                assert disparity.shape[:2] == left.shape[:2]
                 disp = np.round(disparity * 256).astype(np.uint16)
                 colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
                 cv2.imshow("IGEV", colored)
