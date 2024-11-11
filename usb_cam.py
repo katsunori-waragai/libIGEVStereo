@@ -57,7 +57,6 @@ if __name__ == "__main__":
     reproject = args.reproject
     axis = args.axis
     video_num = int(args.video_num)
-    cam_param = disparity_view.CameraParameter.load_json(args.json)
 
     if calc_disparity:
         igev_args = default_args()
@@ -70,7 +69,7 @@ if __name__ == "__main__":
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
     stereo_camera = disparity_view.StereoCamera()
-    stereo_camera.load_camera_parameter(cam_param)
+    stereo_camera.load_camera_parameter(args.json)
     scaled_baseline = stereo_camera.scaled_baseline()  # [mm]
 
     with torch.no_grad():
