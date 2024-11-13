@@ -11,6 +11,13 @@ import torch
 import stereoigev
 
 
+def resize_by_rate(img, rate=1.0):
+    if rate == 1.0:
+        return img
+    h, w = img.shape[:2]
+    new_size = (int(w * rate), int(h * rate))
+    return cv2.resize(img, new_size)
+
 
 def default_args():
     args = argparse.Namespace(
@@ -33,6 +40,7 @@ def default_args():
     )
     return args
 
+
 if __name__ == "__main__":
     import disparity_view
     from disparity_view.o3d_project import gen_tvec, as_extrinsics
@@ -45,6 +53,8 @@ if __name__ == "__main__":
     parser.add_argument("--axis", type=int, default=0, help="axis to shift(0; to right, 1: to upper, 2: to far)")
     parser.add_argument("video_num", type=int, help="number in /dev/video")
     args = parser.parse_args()
+
+    view_size_rate = 0.25
 
     calc_disparity = args.calc_disparity
     normal = args.normal
@@ -82,17 +92,17 @@ if __name__ == "__main__":
             right = frame[:, half_W:, :]
 
             shape = left.shape[:2]
-            cv2.imshow(f"left and right {shape}", frame)
+            cv2.imshow(f"left and right {shape}", resize_by_rate(frame, view_size_rate))
 
             if calc_disparity:
                 disparity = disparity_calculator.predict(left.copy(), right.copy())
                 assert disparity.shape[:2] == left.shape[:2]
                 disp = np.round(disparity * 256).astype(np.uint16)
                 colored = cv2.applyColorMap(cv2.convertScaleAbs(disp, alpha=0.01), cv2.COLORMAP_JET)
-                cv2.imshow("IGEV", colored)
+                cv2.imshow("IGEV", resize_by_rate(colored, view_size_rate))
                 if normal:
                     normal_bgr = converter.convert(disp)
-                    cv2.imshow("normal", normal_bgr)
+                    cv2.imshow("normal", resize_by_rate(normal_bgr, view_size_rate))
 
                 if reproject:
                     stereo_camera.pcd = stereo_camera.generate_point_cloud(disparity, left.copy())
@@ -112,7 +122,7 @@ if __name__ == "__main__":
                     # reprojected_image = disparity_view.reproject_from_left_and_disparity(
                     #     left, disparity, camera_matrix, baseline=baseline, tvec=tvec
                     # )
-                    cv2.imshow("reprojected", reprojected_image)
+                    cv2.imshow("reprojected", resize_by_rate(reprojected_image, view_size_rate))
             key = cv2.waitKey(100)
             if key == ord("q"):
                 exit()
